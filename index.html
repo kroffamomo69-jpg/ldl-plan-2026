@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)file:///Users/Dependo/Downloads/ldl_plan_2026_6.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Dyslipidemia Management Plan</title>
+<link href="./2026 Dyslipidemia Management Plan_files/css2" rel="stylesheet">
+<style>
+:root {
+  --ink: #111318;
+  --ink2: #404350;
+  --ink3: #7c8090;
+  --rule: #e6e7eb;
+  --rule2: #f2f3f6;
+  --bg: #f8f9fb;
+  --srf: #ffffff;
+  --g: #0c6b48;     /* green */
+  --gbg: #e8f5ee;
+  --gl: #b8e4cc;
+  --a: #8a5100;     /* amber */
+  --abg: #fef4e3;
+  --al: #f7d98a;
+  --r: #a81f0e;     /* red */
+  --rbg: #fdecea;
+  --rl: #f5a89e;
+  --b: #1549a0;     /* blue */
+  --bbg: #e8effc;
+  --p: #5f28b8;     /* purple */
+  --pbg: #f0eafb;
+  --t: #0a5e6d;     /* teal */
+  --tbg: #e4f4f7;
+  --acc: #0c6b48;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.page { max-width: 800px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+/* ── Masthead ── */
+.mast {
+  display: flex; align-items: flex-start; gap: 1.1rem;
+  margin-bottom: 2rem; padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--ink);
+}
+.mast-logo {
+  width: 50px; height: 50px; flex-shrink: 0;
+  background: var(--ink); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.mast-logo svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mast h1 { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; line-height: 1.2; }
+.mast p { font-size: 12px; color: var(--ink3); margin-top: 4px; line-height: 1.5; }
+
+/* ── Input panel ── */
+.input-panel {
+  background: var(--srf);
+  border: 1.5px solid var(--rule);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+.acc-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bbg); border-radius: 10px;
+  padding: .65rem 1rem; margin-bottom: 1.5rem;
+  flex-wrap: wrap; gap: .5rem;
+}
+.acc-bar span { font-size: 12px; color: var(--b); font-weight: 500; }
+.acc-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11.5px; font-weight: 600; color: var(--b);
+  text-decoration: none; background: #fff;
+  padding: 4px 10px; border-radius: 6px;
+  border: 1px solid #c5d4f5; transition: background .12s;
+}
+.acc-link:hover { background: #dce8ff; }
+.acc-link svg { width: 12px; height: 12px; }
+
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fi { display: flex; flex-direction: column; gap: 5px; }
+.fi label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink2); }
+.fi .sublabel { font-size: 10px; color: var(--ink3); margin-top: -3px; }
+
+/* Risk input – hero field */
+.risk-hero { position: relative; }
+.risk-hero input {
+  width: 100%; height: 58px;
+  font-size: 28px; font-family: 'DM Mono', monospace; font-weight: 500;
+  padding: 0 44px 0 14px;
+  border: 2px solid var(--rule);
+  border-radius: 10px;
+  background: var(--bg); color: var(--ink);
+  transition: border-color .15s;
+}
+.risk-hero input:focus { outline: none; border-color: var(--acc); background: #fff; }
+.risk-hero .pct { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 20px; color: var(--ink3); font-family: 'DM Mono', monospace; pointer-events: none; }
+
+.fi input[type=number] {
+  height: 42px; padding: 0 12px;
+  font-size: 15px; font-family: 'DM Mono', monospace; font-weight: 500;
+  border: 1.5px solid var(--rule); border-radius: 9px;
+  background: var(--bg); color: var(--ink); width: 100%;
+  transition: border-color .15s;
+}
+.fi input[type=number]:focus { outline: none; border-color: var(--acc); background: #fff; }
+
+.seg { display: flex; }
+.seg button {
+  flex: 1; height: 42px;
+  border: 1.5px solid var(--rule);
+  background: var(--bg); color: var(--ink2);
+  font-size: 12.5px; font-family: 'Outfit', sans-serif; font-weight: 500;
+  cursor: pointer; transition: all .12s;
+}
+.seg button:first-child { border-radius: 9px 0 0 9px; }
+.seg button:last-child  { border-radius: 0 9px 9px 0; }
+.seg button:not(:first-child) { border-left: none; }
+.seg button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+.divider-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--ink3);
+  display: flex; align-items: center; gap: 10px;
+  margin: 1.25rem 0 .9rem;
+}
+.divider-label::before, .divider-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.fields4 { display: grid; grid-template-columns: repeat(4,1fr); gap: .75rem; }
+
+/* CTA */
+.cta {
+  width: 100%; height: 52px;
+  background: var(--ink); border: none; border-radius: 11px;
+  color: #fff; font-size: 15px; font-family: 'Outfit', sans-serif; font-weight: 600;
+  cursor: pointer; margin-top: 1.25rem; letter-spacing: .01em;
+  transition: background .15s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.cta:hover { background: #2a2d38; }
+.cta:active { transform: scale(.99); }
+
+/* ── Results ── */
+#results { display: none; }
+#results.show { display: block; animation: fadeUp .4s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+/* Risk banner */
+.risk-banner {
+  border-radius: 16px; padding: 1.5rem 1.75rem;
+  margin-bottom: 1rem; border: 2px solid;
+  display: flex; align-items: center; gap: 1.25rem;
+}
+.risk-banner.low    { background: var(--gbg); border-color: var(--gl); }
+.risk-banner.border { background: var(--abg); border-color: var(--al); }
+.risk-banner.int    { background: #fff4ec; border-color: #f5c080; }
+.risk-banner.high   { background: var(--rbg); border-color: var(--rl); }
+.rb-pct { font-family: 'Fraunces', serif; font-size: 60px; line-height: 1; flex-shrink: 0; }
+.low  .rb-pct { color: var(--g); }
+.border .rb-pct { color: var(--a); }
+.int  .rb-pct { color: #b04800; }
+.high .rb-pct { color: var(--r); }
+.rb-right { flex: 1; }
+.rb-label { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; color: var(--ink); }
+.rb-sub { font-size: 12.5px; color: var(--ink2); margin-top: 3px; line-height: 1.45; }
+.rb-tag {
+  display: inline-block; margin-top: 8px;
+  padding: 3px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.low    .rb-tag { background: #c8eedd; color: var(--g); }
+.border .rb-tag { background: #fde7b2; color: var(--a); }
+.int    .rb-tag { background: #fdd8b8; color: #8c3800; }
+.high   .rb-tag { background: #fccec9; color: var(--r); }
+
+/* Metrics strip */
+.metrics {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;
+  margin-bottom: 1rem;
+}
+.met {
+  background: var(--srf); border: 1px solid var(--rule);
+  border-radius: 10px; padding: .65rem .85rem;
+}
+.met-l { font-size: 10px; color: var(--ink3); font-weight: 500; margin-bottom: 3px; }
+.met-v { font-size: 14px; font-weight: 600; color: var(--ink); font-family: 'DM Mono', monospace; }
+
+/* CPR */
+.cpr { display: grid; grid-template-columns: 1fr 1fr 1fr; border-radius: 12px; overflow: hidden; border: 1.5px solid var(--rule); margin-bottom: 1rem; }
+.cpr-b { padding: .85rem 1.1rem; }
+.cpr-b:not(:last-child) { border-right: 1.5px solid var(--rule); }
+.cpr-c { background: var(--bbg); }
+.cpr-p { background: var(--tbg); }
+.cpr-r { background: var(--pbg); }
+.cpr-letter { font-family: 'Fraunces', serif; font-size: 30px; line-height: 1; }
+.cpr-c .cpr-letter { color: var(--b); }
+.cpr-p .cpr-letter { color: var(--t); }
+.cpr-r .cpr-letter { color: var(--p); }
+.cpr-word { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--ink3); margin-bottom: 5px; }
+.cpr-val { font-size: 11.5px; color: var(--ink2); line-height: 1.4; }
+
+/* Section heading */
+.sh {
+  font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500;
+  color: var(--ink); margin-bottom: .75rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.sh::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* Rec panel */
+.rec {
+  background: var(--srf); border: 1.5px solid var(--rule);
+  border-left: 4px solid var(--acc); border-radius: 12px;
+  padding: 1.1rem 1.25rem; margin-bottom: 1rem;
+}
+.rec-head { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: .4rem; }
+.rec-body { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+
+/* LDL targets */
+.tgt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: .75rem; }
+.tgt-card { border-radius: 11px; padding: .9rem 1.1rem; border: 1.5px solid var(--rule); }
+.tgt-cur { background: var(--bg); }
+.tgt-tgt { background: var(--srf); }
+.tgt-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--ink3); margin-bottom: 6px; }
+.tgt-val { font-family: 'Fraunces', serif; font-size: 32px; line-height: 1; color: var(--ink); }
+.tgt-unit { font-size: 12px; color: var(--ink3); margin-left: 4px; font-family: 'Outfit', sans-serif; }
+.tgt-status { font-size: 11.5px; font-weight: 600; margin-top: 6px; }
+.tgt-status.ok { color: var(--g); }
+.tgt-status.ms { color: var(--r); }
+.tgt-basis { font-size: 11px; color: var(--ink3); margin-top: 5px; line-height: 1.45; }
+
+/* Therapy rows */
+.tx-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1rem; }
+.tx-row {
+  display: grid; grid-template-columns: 1fr 64px 72px;
+  align-items: center; gap: 10px;
+  padding: 12px 15px;
+  border-radius: 11px;
+  border: 1.5px solid var(--rule);
+  background: var(--srf);
+  transition: box-shadow .15s;
+}
+.tx-row:hover { box-shadow: 0 3px 12px rgba(0,0,0,.06); }
+.tx-row.ok { border-left: 3.5px solid var(--g); }
+.tx-row.ms { border-left: 3.5px solid #ddd; }
+.tx-bdg {
+  display: inline-block; padding: 2px 8px; border-radius: 5px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: 5px;
+}
+.tl1 { background: var(--bbg); color: var(--b); }
+.tl2 { background: var(--abg); color: var(--a); }
+.tl3 { background: var(--rbg); color: var(--r); }
+.tx-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.tx-eg { font-size: 11px; color: var(--ink3); margin-top: 3px; line-height: 1.35; }
+.tx-proj { font-size: 11.5px; margin-top: 6px; }
+.p-ok { font-weight: 700; color: var(--g); }
+.p-ms { font-weight: 700; color: var(--r); }
+.p-add { color: var(--ink3); font-size: 10.5px; }
+.tx-note { font-size: 10px; color: var(--ink3); margin-top: 3px; }
+.tx-pct { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--acc); text-align: right; }
+.bar-t { height: 5px; background: var(--rule2); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.bar-f { height: 100%; background: var(--acc); border-radius: 3px; }
+
+/* Legend */
+.legend { display: flex; gap: 18px; margin-bottom: .85rem; flex-wrap: wrap; }
+.leg { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--ink2); }
+.ldot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+
+/* Info boxes */
+.info { border-radius: 11px; padding: .9rem 1.1rem; font-size: 12.5px; line-height: 1.6; margin-bottom: .75rem; }
+.info strong { font-weight: 600; display: block; margin-bottom: 4px; }
+.info.green  { background: var(--gbg);  border-left: 3px solid var(--g);  color: #0a4e35; }
+.info.blue   { background: var(--bbg);  border-left: 3px solid var(--b);  color: #0d357a; }
+.info.purple { background: var(--pbg);  border-left: 3px solid var(--p);  color: #3a1680; }
+.info.amber  { background: var(--abg);  border-left: 3px solid var(--a);  color: #5c3100; }
+.info.red    { background: var(--rbg);  border-left: 3px solid var(--r);  color: #6b0e0a; }
+.info.grey   { background: var(--rule2); border-left: 3px solid #bbb; color: var(--ink2); }
+.info.teal   { background: var(--tbg);  border-left: 3px solid var(--t);  color: #09404d; }
+
+/* Pills */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.pill { padding: 3px 10px; border-radius: 20px; background: #fff; border: 1px solid var(--rule); font-size: 10.5px; color: var(--ink2); font-weight: 500; }
+.pill.alert { background: #fff3e0; border-color: var(--al); color: var(--a); }
+
+/* Source */
+.src { font-size: 10.5px; color: var(--ink3); line-height: 1.55; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+
+.hidden { display: none !important; }
+
+@media(max-width:580px){
+  .fields, .fields4 { grid-template-columns: 1fr 1fr; }
+  .metrics, .cpr { grid-template-columns: 1fr 1fr; }
+  .cpr-b:not(:last-child) { border-right: none; border-bottom: 1.5px solid var(--rule); }
+  .tgt-grid { grid-template-columns: 1fr; }
+  .tx-row { grid-template-columns: 1fr 64px; }
+  .bar-t { display: none; }
+  .rb-pct { font-size: 42px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Masthead -->
+<div class="mast">
+  <div class="mast-logo">
+    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+  </div>
+  <div>
+    <h1>2026 Dyslipidemia Management Plan</h1>
+    <p>Enter the 10-year ASCVD % from the official ACC PREVENT™ calculator, then add lipid values to generate a complete 2026 ACC/AHA guideline-based management plan.</p>
+  </div>
+</div>
+
+<!-- Input panel -->
+<div class="input-panel">
+
+  <div class="acc-bar">
+    <span>Step 1 — Get your PREVENT™ ASCVD risk score from the official ACC calculator</span>
+    <a class="acc-link" href="https://tools.acc.org/CVD-Risk-Estimator-Plus/#!/calculate/estimate/" target="_blank">
+      Open ACC Calculator
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    </a>
+  </div>
+
+  <!-- Risk score entry -->
+  <div class="fields" style="margin-bottom:1rem">
+    <div class="fi">
+      <label>10-year PREVENT™ ASCVD risk</label>
+      <div class="sublabel">Copy from the "Estimated 10-year risk of ASCVD" box on the ACC site</div>
+      <div class="risk-hero" style="margin-top:4px">
+        <input type="number" id="risk10" min="0" max="100" step="0.1">
+        <span class="pct">%</span>
+      </div>
+    </div>
+    <div class="fi">
+      <label>30-year PREVENT™ ASCVD risk <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 5px;border-radius:3px;font-weight:700;text-transform:uppercase">optional</span></label>
+      <div class="sublabel">Only shown for ages 30–59 on the ACC site</div>
+      <div class="risk-hero" style="margin-top:4px">
+        <input type="number" id="risk30" min="0" max="100" step="0.1">
+        <span class="pct">%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-label">Patient lipids — for LDL-C management plan</div>
+  <div class="fields4" style="margin-bottom:.9rem">
+    <div class="fi">
+      <label>LDL-C (mg/dL)</label>
+      <input type="number" id="ldl">
+    </div>
+    <div class="fi">
+      <label>Non-HDL-C (mg/dL)</label>
+      <input type="number" id="nonhdl">
+    </div>
+    <div class="fi">
+      <label>Lp(a) (nmol/L) <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span></label>
+      <input type="number" id="lpa">
+    </div>
+    <div class="fi">
+      <label>ApoB (mg/dL) <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span></label>
+      <input type="number" id="apob">
+    </div>
+  </div>
+
+  <div class="divider-label">Clinical flags</div>
+  <div class="fields4">
+    <div class="fi">
+      <label>Age (years)</label>
+      <input type="number" id="age">
+    </div>
+    <div class="fi">
+      <label>Diabetes</label>
+      <div class="seg">
+        <button id="bdmY" onclick="S.dm=1;tB(&#39;dm&#39;)">Yes</button>
+        <button id="bdmN" class="on" onclick="S.dm=0;tB(&#39;dm&#39;)">No</button>
+      </div>
+    </div>
+    <div class="fi">
+      <label>CKD (eGFR &lt;60)</label>
+      <div class="seg">
+        <button id="bckY" onclick="S.ck=1;tB(&#39;ck&#39;)">Yes</button>
+        <button id="bckN" class="on" onclick="S.ck=0;tB(&#39;ck&#39;)">No</button>
+      </div>
+    </div>
+    <div class="fi">
+      <label>On statin now</label>
+      <div class="seg">
+        <button id="bstY" onclick="S.st=1;tB(&#39;st&#39;)">Yes</button>
+        <button id="bstN" class="on" onclick="S.st=0;tB(&#39;st&#39;)">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fields" style="margin-top:.75rem">
+    <div class="fi" id="siWrap">
+      <label>Current statin intensity</label>
+      <div class="seg">
+        <button class="on" id="bsiM" onclick="S.si=&#39;mod&#39;;tSI(&#39;mod&#39;)">Moderate</button>
+        <button id="bsiH" onclick="S.si=&#39;high&#39;;tSI(&#39;high&#39;)">High</button>
+      </div>
+    </div>
+    <div class="fi">
+      <label>eGFR (mL/min) — for statin guidance</label>
+      <input type="number" id="egfr">
+    </div>
+  </div>
+
+  <button class="cta" onclick="generate()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 16 12 12 16"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+    Generate 2026 management plan
+  </button>
+
+</div><!-- /input-panel -->
+
+<!-- ── RESULTS ── -->
+<div id="results">
+
+  <!-- Risk banner -->
+  <div class="risk-banner" id="rBanner">
+    <div class="rb-pct" id="rPct">—</div>
+    <div class="rb-right">
+      <div class="rb-label" id="rLabel">—</div>
+      <div class="rb-sub" id="rSub">—</div>
+      <div class="rb-tag" id="rTag">—</div>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics">
+    <div class="met"><div class="met-l">LDL-C entered</div><div class="met-v" id="mLDL">—</div></div>
+    <div class="met"><div class="met-l">Non-HDL-C</div><div class="met-v" id="mNHDL">—</div></div>
+    <div class="met"><div class="met-l">30-yr ASCVD</div><div class="met-v" id="m30">—</div></div>
+    <div class="met"><div class="met-l">Risk source</div><div class="met-v" style="font-size:11px">PREVENT™ ACC</div></div>
+  </div>
+
+  <!-- CPR framework -->
+  <div class="cpr">
+    <div class="cpr-b cpr-c">
+      <div class="cpr-word">C — Calculate</div>
+      <div class="cpr-letter">C</div>
+      <div class="cpr-val" id="cprC">—</div>
+    </div>
+    <div class="cpr-b cpr-p">
+      <div class="cpr-word">P — Personalise</div>
+      <div class="cpr-letter">P</div>
+      <div class="cpr-val">Assess risk-enhancing factors below — may justify upward reclassification or more intensive targets</div>
+    </div>
+    <div class="cpr-b cpr-r">
+      <div class="cpr-word">R — Reclassify</div>
+      <div class="cpr-letter">R</div>
+      <div class="cpr-val" id="cprR">CAC guidance below</div>
+    </div>
+  </div>
+
+  <!-- Guideline recommendation -->
+  <div class="sh">Guideline recommendation</div>
+  <div class="rec">
+    <div class="rec-head" id="recHead">—</div>
+    <div class="rec-body" id="recBody">—</div>
+  </div>
+
+  <!-- LDL-C targets -->
+  <div class="sh">LDL-C &amp; non-HDL-C targets</div>
+  <div class="tgt-grid">
+    <div class="tgt-card tgt-cur">
+      <div class="tgt-lbl">Current LDL-C</div>
+      <div class="tgt-val" id="tCur">—<span class="tgt-unit">mg/dL</span></div>
+      <div class="tgt-status" id="tSt">—</div>
+    </div>
+    <div class="tgt-card tgt-tgt">
+      <div class="tgt-lbl">LDL-C target · 2026 ACC/AHA</div>
+      <div class="tgt-val" id="tTgt">—</div>
+      <div class="tgt-basis" id="tBas">—</div>
+    </div>
+  </div>
+  <div class="tgt-grid hidden" id="nhdlRow">
+    <div class="tgt-card tgt-cur">
+      <div class="tgt-lbl">Current non-HDL-C</div>
+      <div class="tgt-val" id="nCur">—<span class="tgt-unit">mg/dL</span></div>
+    </div>
+    <div class="tgt-card tgt-tgt">
+      <div class="tgt-lbl">Non-HDL-C target</div>
+      <div class="tgt-val" id="nTgt">—</div>
+      <div class="tgt-basis" id="nBas">—</div>
+    </div>
+  </div>
+
+  <!-- Therapeutic escalation -->
+  <div class="sh" style="margin-top:1.5rem">Therapeutic escalation — projected LDL-C reductions</div>
+  <div class="legend">
+    <div class="leg"><span class="ldot" style="background:var(--g)"></span><span><strong>Green</strong> — projected LDL-C meets the absolute target for this risk tier</span></div>
+    <div class="leg"><span class="ldot" style="background:var(--r)"></span><span><strong>Red</strong> — projected LDL-C still above target; escalate or combine</span></div>
+  </div>
+  <div class="tx-list" id="txList"></div>
+
+  <!-- Personalise -->
+  <div class="sh">Personalise — risk-enhancing factors</div>
+  <div class="info blue">
+    <strong>Factors not captured in PREVENT™ — any present may support upward reclassification or more intensive therapy:</strong>
+    <div class="pills" id="rePills"></div>
+  </div>
+
+  <!-- Reclassify -->
+  <div class="sh">Reclassify — CAC scoring</div>
+  <div class="info purple" id="cacBox"></div>
+
+  <!-- Clinical alerts -->
+  <div id="alertsWrap"></div>
+
+  <div class="src">
+    <strong>2026 ACC/AHA/Multisociety Guideline on the Management of Dyslipidemia</strong> (Blumenthal et al., JACC/Circulation, March 13 2026) · Figure 6 flowchart logic · PREVENT™ risk score must be obtained from the official ACC CVD Risk Estimator Plus at tools.acc.org/CVD-Risk-Estimator-Plus — it is <em>not</em> computed by this tool.
+  </div>
+
+</div><!-- /results -->
+</div><!-- /page -->
+
+<script>
+const S = { dm:0, ck:0, st:0, si:'mod' };
+function tB(k){ document.getElementById('b'+k+'Y').classList.toggle('on',S[k]==1); document.getElementById('b'+k+'N').classList.toggle('on',S[k]==0); }
+function tSI(v){ document.getElementById('bsiM').classList.toggle('on',v==='mod'); document.getElementById('bsiH').classList.toggle('on',v==='high'); }
+function gv(id){ return parseFloat(document.getElementById(id).value)||0; }
+
+/* ── 2026 Classification ── */
+function classify(r){
+  if(r<3)  return { tier:0, cls:'low',    label:'Low risk',          sub:'10-year ASCVD <3% · Lifestyle modification is first-line' };
+  if(r<5)  return { tier:1, cls:'border', label:'Borderline risk',   sub:'10-year ASCVD 3–<5% · Statin may be considered after shared decision-making' };
+  if(r<10) return { tier:2, cls:'int',    label:'Intermediate risk', sub:'10-year ASCVD 5–<10% · Moderate-to-high intensity statin recommended' };
+  return           { tier:3, cls:'high',  label:'High risk',         sub:'10-year ASCVD ≥10% · High-intensity statin is indicated' };
+}
+
+/* ── 2026 LDL-C targets (Figure 6) ──
+   Target follows the PREVENT™ risk tier.
+   DM+CKD / LDL≥190 raise the clinical target but are surfaced
+   as alerts separately — they do NOT change the green/red bar
+   used for therapy colouring, which always follows the risk tier. */
+function targets(tier, ldl){
+  if(ldl >= 190)
+    return { ldl:70,  nhdl:100, pct:50,  basis:'LDL-C ≥190 mg/dL — severe hypercholesterolaemia: treat regardless of PREVENT™ risk score' };
+  if(tier === 3)
+    return { ldl:70,  nhdl:100, pct:50,  basis:'High risk (≥10%): goal ≥50% LDL-C reduction · LDL-C <70 mg/dL · non-HDL-C <100 mg/dL' };
+  if(tier === 2)
+    return { ldl:100, nhdl:130, pct:30,  basis:'Intermediate risk (5–<10%): goal ≥30–50% LDL-C reduction · LDL-C <100 mg/dL · non-HDL-C <130 mg/dL' };
+  if(tier === 1)
+    return { ldl:100, nhdl:130, pct:30,  basis:'Borderline risk (3–<5%): if LLT initiated — ≥30% reduction · LDL-C <100 mg/dL' };
+  return { ldl:null, nhdl:null, pct:null, basis:'Low risk (<3%): no routine LDL-C target — lifestyle modification is first-line' };
+}
+
+/* ── Therapy list (Figure 6) ── */
+function buildTx(ldl, onS, intens, tier){
+  const ts = [];
+  if(!onS){
+    if(tier >= 1){
+      ts.push({ t:'1st', pct:30, n:'Moderate-intensity statin',
+        e:'Atorvastatin 10–20 mg/d · Rosuvastatin 5–10 mg/d · Simvastatin 20–40 mg/d',
+        note:'~30% LDL-C reduction — meets ≥30% goal for borderline/intermediate risk' });
+      ts.push({ t:'1st', pct:50, n:'High-intensity statin',
+        e:'Atorvastatin 40–80 mg/d · Rosuvastatin 20–40 mg/d',
+        note:'~50% LDL-C reduction — meets ≥50% goal required for high risk' });
+    }
+    if(tier >= 2){
+      ts.push({ t:'2nd', pct:65, n:'High-intensity statin + Ezetimibe 10 mg',
+        e:'Atorvastatin 40–80 mg + Ezetimibe 10 mg · Fixed-dose: Liptruzet',
+        note:'~65% combined reduction — 1st add-on if goal not met on statin alone (COR 2a)' });
+      ts.push({ t:'2nd', pct:55, n:'High-intensity statin + Bempedoic acid 180 mg',
+        e:'Nexletol 180 mg/d · Nexlizet (bempedoic acid + ezetimibe combo)',
+        note:'~55% combined — oral non-statin option (COR 2b)' });
+    }
+    if(tier === 3){
+      ts.push({ t:'3rd', pct:85, n:'Max-tolerated statin + Ezetimibe + PCSK9 inhibitor',
+        e:'Evolocumab 140 mg q2w · Alirocumab 75–150 mg q2w',
+        note:'~85% combined reduction — if goals not met on statin + ezetimibe (COR 2b)' });
+    }
+  } else if(intens === 'mod'){
+    ts.push({ t:'1st', pct:20, add:1, n:'Intensify → high-intensity statin',
+      e:'Atorvastatin 40–80 mg · Rosuvastatin 20–40 mg',
+      note:'Additional ~20% reduction from current LDL-C' });
+    ts.push({ t:'2nd', pct:15, add:1, n:'Add Ezetimibe 10 mg',
+      e:'To current or intensified statin (now generic)',
+      note:'Additional ~15–20% (COR 2a) — add before PCSK9i' });
+    ts.push({ t:'2nd', pct:15, add:1, n:'Add Bempedoic acid 180 mg',
+      e:'Nexletol 180 mg/d · Nexlizet (combo with ezetimibe)',
+      note:'Additional ~15% (COR 2b) — oral non-statin option' });
+    ts.push({ t:'2nd', pct:35, add:1, n:'Intensified statin + Ezetimibe (combined step-up)',
+      e:'High-intensity statin + Ezetimibe 10 mg',
+      note:'Additional ~35% combined reduction from current LDL-C' });
+    if(tier >= 3)
+      ts.push({ t:'3rd', pct:60, add:1, n:'Add PCSK9 inhibitor (to max statin ± ezetimibe)',
+        e:'Evolocumab 140 mg q2w · Alirocumab 75–150 mg q2w',
+        note:'Additional ~60% reduction (COR 2b)' });
+  } else {
+    ts.push({ t:'2nd', pct:15, add:1, n:'Add Ezetimibe 10 mg',
+      e:'To current high-intensity statin (now generic)',
+      note:'Additional ~15–20% (COR 2a) — first step per 2026 guideline' });
+    ts.push({ t:'2nd', pct:15, add:1, n:'Add Bempedoic acid 180 mg',
+      e:'Nexletol 180 mg/d · Nexlizet combo',
+      note:'Additional ~15% (COR 2b)' });
+    ts.push({ t:'3rd', pct:60, add:1, n:'Add PCSK9 inhibitor',
+      e:'Evolocumab 140 mg q2w · Alirocumab 75–150 mg q2w',
+      note:'Additional ~60% (COR 2b)' });
+    if(tier >= 2)
+      ts.push({ t:'3rd', pct:50, add:1, n:'Add Inclisiran (if PCSK9 mAb not feasible)',
+        e:'Inclisiran 300 mg sc q6mo after initial loading doses',
+        note:'Additional ~50% sustained reduction; CVOT outcomes data pending' });
+  }
+  return ts.map(t => ({ ...t, proj: Math.round(ldl * (1 - t.pct/100)) }));
+}
+
+const RECS = {
+  0: 'Low 10-year ASCVD risk (<3%). <strong>Lifestyle modification is the cornerstone</strong>: Mediterranean or DASH diet, ≥150 min/week of moderate aerobic activity, tobacco avoidance, prioritise sleep, maintain healthy weight. Pharmacotherapy is not routinely indicated at this level unless LDL-C ≥190 mg/dL, LDL-C 160–189 mg/dL with 30-year risk ≥10%, or strong risk-enhancing factors exist. Consider 30-year PREVENT™ risk for patients ≤59 years to guide long-term counselling. Reassess in 4–6 years.',
+  1: 'Borderline risk (3–<5%). Lifestyle optimisation remains first-line. Statin therapy <strong>may be considered</strong> after shared decision-making — particularly when risk-enhancing factors are present (Lp(a) ≥125 nmol/L, family history of premature ASCVD, hsCRP ≥2 mg/L, ABI <0.9, elevated ApoB). LDL-C goal if treated: <100 mg/dL with ≥30% reduction. <strong>CAC scoring is highly informative</strong> in borderline-risk patients: CAC = 0 supports deferring statin; CAC ≥100 supports initiating therapy with goal LDL-C <70 mg/dL.',
+  2: 'Intermediate risk (5–<10%). Initiate <strong>moderate-to-high intensity statin</strong> after clinician-patient discussion. Goals: ≥30–50% LDL-C reduction; LDL-C <100 mg/dL; non-HDL-C <130 mg/dL. If treatment decision is uncertain, proceed to CAC assessment. Assess risk-enhancing factors to guide intensification. Measure Lp(a) at least once. Consider ApoB if TG >200 mg/dL or achieved LDL-C <70 mg/dL. Reassess fasting lipid panel 4–12 weeks after initiation.',
+  3: 'High risk (≥10%). <strong>High-intensity statin is indicated</strong> — shared decision-making about statin initiation is not required. Goals: ≥50% LDL-C reduction; LDL-C <70 mg/dL; non-HDL-C <100 mg/dL. If goals not met on maximally tolerated statin, add ezetimibe first (generic, strong evidence — COR 2a). If still above goal, add PCSK9 inhibitor or bempedoic acid (COR 2b). Measure Lp(a) at least once in all adults. Use ApoB to assess residual risk once LDL-C and non-HDL-C targets are achieved. Reassess lipids 4–12 weeks after initiation or dose change.'
+};
+
+const CAC_MAP = {
+  low: 'Low-risk patients do not routinely require CAC scoring for treatment decisions. If LDL-C 160–189 mg/dL or 30-year risk ≥10%, consider CAC to guide moderate statin initiation.',
+  border: '<strong>CAC scoring is highly informative at borderline risk.</strong><br>• CAC = 0: supports deferring statin — repeat CAC in 3–7 years (unless DM, active smoking, or strong family Hx).<br>• CAC 1–99 or <75th %ile: favour initiating statin; LDL-C goal <100 mg/dL.<br>• CAC 100–299 or ≥75th %ile: initiate statin; consider LDL-C goal <70 mg/dL.<br>• CAC ≥1000: very high burden — target LDL-C <55 mg/dL.',
+  int:    '<strong>CAC assessment when statin decision is uncertain (Figure 6).</strong><br>• CAC = 0: may support deferring statin in selected patients — repeat CAC in 3–7 years.<br>• CAC 1–99: initiate statin; LDL-C goal <100 mg/dL.<br>• CAC 100–299 or ≥75th %ile: intensify — LDL-C goal <70 mg/dL.<br>• CAC ≥300 or ≥75th %ile: high-intensity statin; goal <70 mg/dL.',
+  high:   'High-risk patients (≥10%): high-intensity statin is indicated regardless of CAC score. CAC may guide further intensification (e.g., adding ezetimibe earlier) but is not needed before initiating therapy.'
+};
+
+/* ── Main ── */
+function generate(){
+  const r10  = gv('risk10');
+  const r30  = gv('risk30');
+  const ldl  = gv('ldl');
+  const nhdl = gv('nonhdl');
+  const lpa  = gv('lpa');
+  const apob = gv('apob');
+  const age  = gv('age') || 50;
+  const egfr = gv('egfr');
+
+  if(!r10){ alert('Please enter the 10-year PREVENT™ ASCVD risk from the ACC calculator.'); return; }
+  if(!ldl){ alert('Please enter the current LDL-C value.'); return; }
+
+  const rc  = classify(r10);
+  const tg  = targets(rc.tier, ldl);
+  const txs = buildTx(ldl, S.st, S.si, rc.tier);
+
+  /* Risk banner */
+  const ban = document.getElementById('rBanner');
+  ban.className = 'risk-banner ' + rc.cls;
+  document.getElementById('rPct').textContent  = r10.toFixed(1) + '%';
+  document.getElementById('rLabel').textContent = rc.label;
+  document.getElementById('rSub').textContent   = rc.sub;
+  const rt = document.getElementById('rTag');
+  rt.textContent = '2026 ACC/AHA: ' + rc.label;
+  rt.className = 'rb-tag';
+
+  /* Metrics */
+  document.getElementById('mLDL').textContent  = ldl + ' mg/dL';
+  document.getElementById('mNHDL').textContent = nhdl ? nhdl + ' mg/dL' : '—';
+  document.getElementById('m30').textContent   = r30 ? r30.toFixed(1) + '%' : '—';
+
+  /* CPR */
+  document.getElementById('cprC').textContent = r10.toFixed(1) + '% 10-yr' + (r30 ? ' · ' + r30.toFixed(1) + '% 30-yr' : '') + ' · ' + rc.label;
+  document.getElementById('cprR').textContent = rc.tier <= 2
+    ? 'CAC = 0 → consider deferring statin; CAC ≥100 → intensify, LDL-C goal <70 mg/dL'
+    : 'High risk: statin indicated regardless of CAC. CAC may guide further intensification.';
+
+  /* Rec */
+  document.getElementById('recHead').textContent = '2026 ACC/AHA — ' + rc.label;
+  document.getElementById('recBody').innerHTML   = RECS[rc.tier];
+
+  /* LDL targets */
+  document.getElementById('tCur').innerHTML = ldl + '<span class="tgt-unit">mg/dL</span>';
+  const atLDL = tg.ldl && ldl <= tg.ldl;
+  const st = document.getElementById('tSt');
+  if(!tg.ldl){ st.textContent = 'No specific numeric target — lifestyle first'; st.className = 'tgt-status'; }
+  else { st.textContent = atLDL ? '✓ At target' : '⚠ Above target — intensification needed'; st.className = 'tgt-status ' + (atLDL ? 'ok' : 'ms'); }
+  document.getElementById('tTgt').innerHTML  = tg.ldl ? tg.ldl + '<span class="tgt-unit">mg/dL</span>' : '<span style="font-size:16px">Lifestyle first</span>';
+  document.getElementById('tBas').textContent = tg.basis;
+
+  if(nhdl && tg.nhdl){
+    document.getElementById('nhdlRow').classList.remove('hidden');
+    document.getElementById('nCur').innerHTML = nhdl + '<span class="tgt-unit">mg/dL</span>';
+    document.getElementById('nTgt').innerHTML = tg.nhdl + '<span class="tgt-unit">mg/dL</span>';
+    const atN = nhdl <= tg.nhdl;
+    document.getElementById('nBas').textContent = (atN ? '✓ At target' : '⚠ Above target') + ' · Non-HDL-C target = LDL-C target + 30 mg/dL';
+  } else {
+    document.getElementById('nhdlRow').classList.add('hidden');
+  }
+
+  /* Therapies */
+  const grid = document.getElementById('txList');
+  grid.innerHTML = '';
+  if(!txs.length){
+    grid.innerHTML = '<div class="info grey">No pharmacotherapy routinely recommended at low risk. Focus on lifestyle optimisation. Reassess in 4–6 years.</div>';
+  } else {
+    txs.forEach(t => {
+      const mL  = tg.ldl  ? t.proj <= tg.ldl  : true;
+      const mP  = tg.pct  ? t.pct  >= tg.pct  : true;
+      const met = mL; // green if LDL-C target met, regardless of % reduction goal
+      const addN = t.add ? '<span class="p-add"> (additional from current LDL-C)</span>' : '';
+      const tlc = {'1st':'tl1','2nd':'tl2','3rd':'tl3'}[t.t] || 'tl3';
+      const pTag = tg.pct
+        ? (t.pct >= tg.pct
+            ? `<span style="color:var(--g);font-weight:600"> · ✓ meets ≥${tg.pct}% goal</span>`
+            : `<span style="color:var(--a)"> · ⚠ below ≥${tg.pct}% goal</span>`)
+        : '';
+      grid.innerHTML += `
+        <div class="tx-row ${met ? 'ok' : 'ms'}">
+          <div>
+            <span class="tx-bdg ${tlc}">${t.t} line</span>
+            <div class="tx-name">${t.n}</div>
+            <div class="tx-eg">${t.e}</div>
+            <div class="tx-proj">
+              Projected LDL-C: <span class="${met ? 'p-ok' : 'p-ms'}">${t.proj} mg/dL</span>${addN}${pTag}
+            </div>
+            <div class="tx-note">${t.note}</div>
+          </div>
+          <div class="tx-pct">−${t.pct}%</div>
+          <div><div class="bar-t"><div class="bar-f" style="width:${t.pct}%"></div></div></div>
+        </div>`;
+    });
+  }
+
+  /* Risk-enhancing pills */
+  const pills = [
+    { t:'Family Hx premature ASCVD (1° relative <55M / <65F)', a:false },
+    { t:'hsCRP ≥2 mg/L', a:false },
+    { t: lpa ? `Lp(a) ${lpa} nmol/L${lpa >= 125 ? ' ⚠ elevated (≥125)' : ''}` : 'Lp(a) ≥125 nmol/L', a: lpa >= 125 },
+    { t: apob ? `ApoB ${apob} mg/dL${apob >= 130 ? ' ⚠ elevated (≥130)' : ''}` : 'ApoB ≥130 mg/dL', a: apob >= 130 },
+    { t:'ABI <0.9', a:false },
+    { t:'CAC ≥100 AU', a:false },
+    { t:'Metabolic syndrome', a:false },
+    { t:'Chronic inflammatory disease (RA, psoriasis, SLE)', a:false },
+    { t:'HIV / antiretroviral therapy', a:false },
+    { t:'South/South-East Asian or other higher-risk ancestry', a:false },
+    { t:'Pre-eclampsia, premature menopause (<40y), or gestational DM', a:false },
+    { t:'Hypertriglyceridaemia (TG ≥175 mg/dL)', a:false },
+  ];
+  document.getElementById('rePills').innerHTML =
+    pills.map(p => `<span class="pill${p.a ? ' alert' : ''}">${p.t}</span>`).join('');
+
+  /* CAC */
+  document.getElementById('cacBox').innerHTML = CAC_MAP[rc.cls];
+
+  /* Clinical alerts */
+  const aw = document.getElementById('alertsWrap');
+  aw.innerHTML = '';
+  const alerts = [];
+
+  if(S.st)
+    alerts.push({ c:'amber', t:'Patient currently on a statin', b:'% reductions shown are <strong>additional</strong> from the current LDL-C. Reassess fasting lipid panel 4–12 weeks after any regimen change.' });
+  if(ldl >= 190)
+    alerts.push({ c:'red', t:'LDL-C ≥190 mg/dL — screen for familial hypercholesterolaemia', b:'Apply Dutch Lipid Clinic or Simon Broome criteria. Consider genetic testing and cascade screening of first-degree relatives. Initiate high-intensity statin regardless of calculated PREVENT™ risk score.' });
+  if(S.dm && age >= 40)
+    alerts.push({ c:'amber', t:'Diabetes mellitus (age ≥40)', b:'2026 guideline: LLT is recommended regardless of LDL-C level in adults ≥40 years with DM + CKD (stage 3–4) or ≥1 additional ASCVD risk factor. ADA 2024 also recommends LDL-C <70 mg/dL for patients with DM and additional CVD risk factors.' });
+  if(S.ck || (egfr > 0 && egfr < 60))
+    alerts.push({ c:'teal', t:'CKD (eGFR <60 mL/min/1.73m²)', b:'Risk-enhancing factor. Preferred statins: pravastatin or rosuvastatin (avoid high-dose simvastatin). PCSK9 inhibitor dose adjustment is not required. In adults ≥40 with DM + CKD stage 3–4, LLT is indicated regardless of LDL-C level.' });
+  if(lpa >= 125)
+    alerts.push({ c:'purple', t:'Elevated Lp(a) ≥125 nmol/L — independent causal ASCVD risk factor', b:'Supports more aggressive LDL-C lowering targets. Novel Lp(a)-lowering therapies (olpasiran, pelacarsen, muvalaplin) are in Phase 3 trials — not yet guideline-approved. The 2026 guideline recommends measuring Lp(a) at least once in all adults.' });
+  if(apob >= 130)
+    alerts.push({ c:'blue', t:'Elevated ApoB ≥130 mg/dL', b:'ApoB reflects atherogenic particle burden and may be a more accurate risk marker than LDL-C, particularly when TG >200 mg/dL, in DM, or obesity. Consider ApoB <90 mg/dL as a secondary target once LDL-C and non-HDL-C goals are achieved.' });
+
+  if(!alerts.length)
+    alerts.push({ c:'green', t:'No additional clinical alerts', b:'Reassess PREVENT™ risk and fasting lipid panel 4–12 weeks after initiating or adjusting statin therapy, then every 6–12 months. Measure Lp(a) at least once. Consider ApoB once LDL-C and non-HDL-C goals are met.' });
+
+  alerts.forEach(a => {
+    aw.innerHTML += `<div class="info ${a.c}"><strong>${a.t}</strong>${a.b}</div>`;
+  });
+
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+</script>
+
+
+</body></html>
