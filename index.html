@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///Users/Dependo/Downloads/ldl_plan_2026_6.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 Dyslipidemia Management Plan</title>
-<link href="./2026 Dyslipidemia Management Plan_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,700;1,300&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink: #111318;
@@ -292,6 +292,15 @@ body {
 
 .hidden { display: none !important; }
 
+.unit-toggle { display:flex; align-items:center; gap:10px; margin-bottom:1.25rem; }
+.unit-toggle span { font-size:12px; color:var(--ink3); font-weight:500; }
+.unit-seg { display:flex; }
+.unit-seg button { height:34px; padding:0 18px; border:1.5px solid var(--rule); background:var(--bg); color:var(--ink2); font-size:13px; font-family:'Outfit',sans-serif; font-weight:500; cursor:pointer; transition:all .12s; }
+.unit-seg button:first-child { border-radius:9px 0 0 9px; }
+.unit-seg button:last-child { border-radius:0 9px 9px 0; border-left:none; }
+.unit-seg button.on { background:var(--ink); border-color:var(--ink); color:#fff; }
+
+
 @media(max-width:580px){
   .fields, .fields4 { grid-template-columns: 1fr 1fr; }
   .metrics, .cpr { grid-template-columns: 1fr 1fr; }
@@ -309,7 +318,7 @@ body {
 <!-- Masthead -->
 <div class="mast">
   <div class="mast-logo">
-    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
   </div>
   <div>
     <h1>2026 Dyslipidemia Management Plan</h1>
@@ -324,8 +333,18 @@ body {
     <span>Step 1 — Get your PREVENT™ ASCVD risk score from the official ACC calculator</span>
     <a class="acc-link" href="https://tools.acc.org/CVD-Risk-Estimator-Plus/#!/calculate/estimate/" target="_blank">
       Open ACC Calculator
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
     </a>
+  </div>
+
+
+  <!-- Unit toggle -->
+  <div class="unit-toggle">
+    <span>Lipid units:</span>
+    <div class="unit-seg">
+      <button class="on" id="uMG" onclick="setUnit('mg')">mg/dL</button>
+      <button id="uMM" onclick="setUnit('mmol')">mmol/L</button>
+    </div>
   </div>
 
   <!-- Risk score entry -->
@@ -351,20 +370,20 @@ body {
   <div class="divider-label">Patient lipids — for LDL-C management plan</div>
   <div class="fields4" style="margin-bottom:.9rem">
     <div class="fi">
-      <label>LDL-C (mg/dL)</label>
-      <input type="number" id="ldl">
+      <label id="lblLDL">LDL-C (mg/dL)</label>
+      <input type="number" id="ldl" step="0.01">
     </div>
     <div class="fi">
-      <label>Non-HDL-C (mg/dL)</label>
-      <input type="number" id="nonhdl">
+      <label id="lblNHDL">Non-HDL-C (mg/dL)</label>
+      <input type="number" id="nonhdl" step="0.01">
     </div>
     <div class="fi">
       <label>Lp(a) (nmol/L) <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span></label>
       <input type="number" id="lpa">
     </div>
     <div class="fi">
-      <label>ApoB (mg/dL) <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span></label>
-      <input type="number" id="apob">
+      <label id="lblAPOB">ApoB (mg/dL) <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span></label>
+      <input type="number" id="apob" step="0.01">
     </div>
   </div>
 
@@ -377,22 +396,22 @@ body {
     <div class="fi">
       <label>Diabetes</label>
       <div class="seg">
-        <button id="bdmY" onclick="S.dm=1;tB(&#39;dm&#39;)">Yes</button>
-        <button id="bdmN" class="on" onclick="S.dm=0;tB(&#39;dm&#39;)">No</button>
+        <button id="bdmY" onclick="S.dm=1;tB('dm')">Yes</button>
+        <button id="bdmN" class="on" onclick="S.dm=0;tB('dm')">No</button>
       </div>
     </div>
     <div class="fi">
       <label>CKD (eGFR &lt;60)</label>
       <div class="seg">
-        <button id="bckY" onclick="S.ck=1;tB(&#39;ck&#39;)">Yes</button>
-        <button id="bckN" class="on" onclick="S.ck=0;tB(&#39;ck&#39;)">No</button>
+        <button id="bckY" onclick="S.ck=1;tB('ck')">Yes</button>
+        <button id="bckN" class="on" onclick="S.ck=0;tB('ck')">No</button>
       </div>
     </div>
     <div class="fi">
       <label>On statin now</label>
       <div class="seg">
-        <button id="bstY" onclick="S.st=1;tB(&#39;st&#39;)">Yes</button>
-        <button id="bstN" class="on" onclick="S.st=0;tB(&#39;st&#39;)">No</button>
+        <button id="bstY" onclick="S.st=1;tB('st')">Yes</button>
+        <button id="bstN" class="on" onclick="S.st=0;tB('st')">No</button>
       </div>
     </div>
   </div>
@@ -401,8 +420,8 @@ body {
     <div class="fi" id="siWrap">
       <label>Current statin intensity</label>
       <div class="seg">
-        <button class="on" id="bsiM" onclick="S.si=&#39;mod&#39;;tSI(&#39;mod&#39;)">Moderate</button>
-        <button id="bsiH" onclick="S.si=&#39;high&#39;;tSI(&#39;high&#39;)">High</button>
+        <button class="on" id="bsiM" onclick="S.si='mod';tSI('mod')">Moderate</button>
+        <button id="bsiH" onclick="S.si='high';tSI('high')">High</button>
       </div>
     </div>
     <div class="fi">
@@ -412,7 +431,7 @@ body {
   </div>
 
   <button class="cta" onclick="generate()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 16 12 12 16"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
     Generate 2026 management plan
   </button>
 
@@ -521,7 +540,34 @@ body {
 </div><!-- /page -->
 
 <script>
-const S = { dm:0, ck:0, st:0, si:'mod' };
+const S = { dm:0, ck:0, st:0, si:'mod', unit:'mg' };
+const C = 0.02586; // mg/dL → mmol/L
+
+function setUnit(u){
+  S.unit = u;
+  document.getElementById('uMG').classList.toggle('on', u==='mg');
+  document.getElementById('uMM').classList.toggle('on', u==='mmol');
+  const isMM = u==='mmol';
+  // Update labels
+  document.getElementById('lblLDL').innerHTML  = 'LDL-C ('  +(isMM?'mmol/L':'mg/dL')+')';
+  document.getElementById('lblNHDL').innerHTML = 'Non-HDL-C ('+(isMM?'mmol/L':'mg/dL')+')';
+  document.getElementById('lblAPOB').innerHTML = 'ApoB ('   +(isMM?'mmol/L':'mg/dL')+') <span style="font-size:9px;background:var(--rule2);color:var(--ink3);padding:1px 4px;border-radius:3px;font-weight:700;text-transform:uppercase">opt</span>';
+  // Convert existing values if any
+  ['ldl','nonhdl','apob'].forEach(id=>{
+    const v = parseFloat(document.getElementById(id).value);
+    if(!v) return;
+    document.getElementById(id).value = isMM
+      ? (v*C).toFixed(2)
+      : Math.round(v/C);
+  });
+}
+
+// Convert any lipid value to mg/dL for internal logic
+function toMG(v){ return S.unit==='mmol' ? v/C : v; }
+// Format for display
+function fmt(mgVal){ return S.unit==='mmol' ? (mgVal*C).toFixed(2)+' mmol/L' : mgVal+' mg/dL'; }
+function fmtTgt(mgVal){ return S.unit==='mmol' ? (mgVal*C).toFixed(2)+'<span class="tgt-unit">mmol/L</span>' : mgVal+'<span class="tgt-unit">mg/dL</span>'; }
+function unitLabel(){ return S.unit==='mmol'?'mmol/L':'mg/dL'; }
 function tB(k){ document.getElementById('b'+k+'Y').classList.toggle('on',S[k]==1); document.getElementById('b'+k+'N').classList.toggle('on',S[k]==0); }
 function tSI(v){ document.getElementById('bsiM').classList.toggle('on',v==='mod'); document.getElementById('bsiH').classList.toggle('on',v==='high'); }
 function gv(id){ return parseFloat(document.getElementById(id).value)||0; }
@@ -629,10 +675,10 @@ const CAC_MAP = {
 function generate(){
   const r10  = gv('risk10');
   const r30  = gv('risk30');
-  const ldl  = gv('ldl');
-  const nhdl = gv('nonhdl');
+  const ldl  = toMG(gv('ldl'));
+  const nhdl = toMG(gv('nonhdl'));
   const lpa  = gv('lpa');
-  const apob = gv('apob');
+  const apob = toMG(gv('apob'));
   const age  = gv('age') || 50;
   const egfr = gv('egfr');
 
@@ -654,8 +700,8 @@ function generate(){
   rt.className = 'rb-tag';
 
   /* Metrics */
-  document.getElementById('mLDL').textContent  = ldl + ' mg/dL';
-  document.getElementById('mNHDL').textContent = nhdl ? nhdl + ' mg/dL' : '—';
+  document.getElementById('mLDL').textContent  = fmt(ldl);
+  document.getElementById('mNHDL').textContent = nhdl ? fmt(nhdl) : '—';
   document.getElementById('m30').textContent   = r30 ? r30.toFixed(1) + '%' : '—';
 
   /* CPR */
@@ -669,18 +715,18 @@ function generate(){
   document.getElementById('recBody').innerHTML   = RECS[rc.tier];
 
   /* LDL targets */
-  document.getElementById('tCur').innerHTML = ldl + '<span class="tgt-unit">mg/dL</span>';
+  document.getElementById('tCur').innerHTML = fmtTgt(ldl);
   const atLDL = tg.ldl && ldl <= tg.ldl;
   const st = document.getElementById('tSt');
   if(!tg.ldl){ st.textContent = 'No specific numeric target — lifestyle first'; st.className = 'tgt-status'; }
   else { st.textContent = atLDL ? '✓ At target' : '⚠ Above target — intensification needed'; st.className = 'tgt-status ' + (atLDL ? 'ok' : 'ms'); }
-  document.getElementById('tTgt').innerHTML  = tg.ldl ? tg.ldl + '<span class="tgt-unit">mg/dL</span>' : '<span style="font-size:16px">Lifestyle first</span>';
+  document.getElementById('tTgt').innerHTML  = tg.ldl ? fmtTgt(tg.ldl) : '<span style="font-size:16px">Lifestyle first</span>';
   document.getElementById('tBas').textContent = tg.basis;
 
   if(nhdl && tg.nhdl){
     document.getElementById('nhdlRow').classList.remove('hidden');
-    document.getElementById('nCur').innerHTML = nhdl + '<span class="tgt-unit">mg/dL</span>';
-    document.getElementById('nTgt').innerHTML = tg.nhdl + '<span class="tgt-unit">mg/dL</span>';
+    document.getElementById('nCur').innerHTML = fmtTgt(nhdl);
+    document.getElementById('nTgt').innerHTML = fmtTgt(tg.nhdl);
     const atN = nhdl <= tg.nhdl;
     document.getElementById('nBas').textContent = (atN ? '✓ At target' : '⚠ Above target') + ' · Non-HDL-C target = LDL-C target + 30 mg/dL';
   } else {
@@ -711,7 +757,7 @@ function generate(){
             <div class="tx-name">${t.n}</div>
             <div class="tx-eg">${t.e}</div>
             <div class="tx-proj">
-              Projected LDL-C: <span class="${met ? 'p-ok' : 'p-ms'}">${t.proj} mg/dL</span>${addN}${pTag}
+              Projected LDL-C: <span class="${met ? 'p-ok' : 'p-ms'}">${fmt(t.proj)}</span>${addN}${pTag}
             </div>
             <div class="tx-note">${t.note}</div>
           </div>
@@ -771,6 +817,5 @@ function generate(){
   document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
