@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVENT™ ASCVD Risk Calculator + LDL-C Management Plan</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f8;color:#1a1f2e;min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.header{background:#1a7a6e;color:#fff;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem}
+.header h1{font-size:18px;font-weight:700}
+.header p{font-size:12px;opacity:.8;margin-top:4px}
+.unit-toggle{display:flex;gap:0;flex-shrink:0}
+.unit-toggle button{padding:6px 14px;font-size:13px;font-weight:600;border:1.5px solid rgba(255,255,255,.5);background:transparent;color:rgba(255,255,255,.7);cursor:pointer;transition:all .15s}
+.unit-toggle button:first-child{border-radius:6px 0 0 6px}
+.unit-toggle button:last-child{border-radius:0 6px 6px 0}
+.unit-toggle button.on{background:#fff;color:#1a7a6e;border-color:#fff}
+.card{background:#fff;border:1px solid #e0e5ec;border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.hd{font-weight:700;font-size:13.5px;color:#1a1f2e}
+.note{font-size:12px;color:#667085;margin:.4rem 0 1rem}
+.mode-row{display:flex;margin:.35rem 0 .25rem}
+.mb{padding:7px 18px;font-size:13px;font-weight:600;border:1.5px solid #ccc;background:#fff;color:#555;cursor:pointer}
+.mb:first-child{border-radius:6px 0 0 6px;color:#222;box-shadow:inset 0 0 0 1.5px #1a7a6e;border-color:#1a7a6e}
+.mb:last-child{border-radius:0 6px 6px 0;background:#1a7a6e;color:#fff;border-color:#1a7a6e}
+.r4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem 1.25rem;margin-bottom:.9rem}
+.r3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem 1.25rem;margin-bottom:.9rem}
+@media(max-width:640px){.r4{grid-template-columns:repeat(2,1fr)}.r3{grid-template-columns:repeat(2,1fr)}}
+.fl{font-size:13px;font-weight:600;margin-bottom:.35rem;display:flex;align-items:center;gap:4px;flex-wrap:wrap;color:#344054}
+.fl .u{font-weight:400;font-size:11px;color:#667085}
+.fl .i{width:14px;height:14px;border-radius:50%;background:#e0e5ec;color:#667085;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.seg{display:flex;width:100%}
+.seg button{flex:1;padding:8px 4px;font-size:13px;font-weight:500;border:none;background:#9e9e9e;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;transition:background .12s;position:relative}
+.seg button:first-child{border-radius:5px 0 0 5px}
+.seg button:last-child{border-radius:0 5px 5px 0}
+.seg button.on{background:#1a7a6e}
+.seg button.on::before{content:'✓ '}
+.ni{width:100%;padding:8px 10px;font-size:13.5px;border:1.5px solid #d0d5dd;border-radius:5px;background:#fff;color:#1a1f2e}
+.ni:focus{outline:none;border-color:#1a7a6e;box-shadow:0 0 0 3px rgba(26,122,110,.1)}
+.opt{font-size:13px;color:#444;margin:.25rem 0 .9rem}
+.cond{margin-top:.4rem;display:none}
+.addbox{background:#f7fbfa;border:1px solid #cce8e3;border-radius:7px;padding:.75rem 1rem;margin-bottom:.9rem}
+.addbox-hd{font-size:12.5px;font-weight:700;color:#0f5c52;margin-bottom:.6rem}
+.ref-grid{display:flex;flex-wrap:wrap;gap:.45rem .9rem;margin-bottom:.9rem}
+.ref-grid label{font-size:12.5px;display:flex;align-items:center;gap:5px;cursor:pointer;color:#344054}
+.ref-grid input[type=checkbox]{accent-color:#1a7a6e;width:14px;height:14px}
+.mhd{font-size:14px;font-weight:700;margin-bottom:.2rem}
+.mdesc{font-size:11.5px;color:#667085;font-style:italic;line-height:1.5;margin-bottom:.75rem}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:.75rem;align-items:start}
+@media(max-width:600px){.mgrid{grid-template-columns:1fr}}
+.mbox{border:1.5px solid #d0d5dd;border-radius:7px;padding:.75rem}
+.mbox-hd{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;margin-bottom:.55rem;color:#1a1f2e}
+.mbox-hd input[type=checkbox]{accent-color:#1a7a6e;width:15px;height:15px}
+.rrow{display:flex;justify-content:space-between;align-items:center;background:#f7f8fa;border-radius:4px;padding:6px 9px;margin-bottom:.3rem;font-size:12.5px;color:#344054}
+.rrow:last-child{margin-bottom:0}
+.rpct{color:#c0392b;font-size:18px;font-weight:700;line-height:1}
+.rlbl{font-size:10.5px;color:#1a7a6e;font-weight:700;margin-top:2px}
+.bcol{display:flex;flex-direction:column;gap:.5rem;padding-top:.1rem}
+.bcalc{padding:12px 22px;font-size:14px;font-weight:700;background:#1a7a6e;color:#fff;border:none;border-radius:7px;cursor:pointer;width:130px;transition:background .12s}
+.bcalc:hover{background:#0f5c52}
+.breset,.bexp{padding:9px 14px;font-size:13px;font-weight:500;background:#fff;color:#344054;border:1.5px solid #d0d5dd;border-radius:7px;cursor:pointer;width:130px;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .12s}
+.breset:hover,.bexp:hover{background:#f4f6f8}
+.fn{font-size:11px;color:#667085;font-style:italic;margin-top:.5rem;display:none;line-height:1.5}
+.err{color:#c0392b;font-size:12px;margin-top:.35rem}
+.unit-badge{display:inline-block;font-size:10px;background:#e8f5f3;color:#0f5c52;border:1px solid #cce8e3;border-radius:4px;padding:1px 5px;font-weight:600;margin-left:3px}
+/* plan */
+.plan{display:none}
+.rbanner{border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.9rem}
+.rbanner.low{background:#eaf7ea;border-left:4px solid #2d8a2d}
+.rbanner.borderline{background:#fef9ec;border-left:4px solid #b07d10}
+.rbanner.intermediate{background:#fff3ed;border-left:4px solid #b84c1a}
+.rbanner.high{background:#fdecea;border-left:4px solid #a32d2d}
+.rtitle{font-size:18px;font-weight:700}
+.rtitle.low{color:#1a5c1a}.rtitle.borderline{color:#7a5500}.rtitle.intermediate{color:#8b3000}.rtitle.high{color:#7f1d1d}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.6rem}
+.mc{background:rgba(255,255,255,.65);border-radius:5px;padding:.35rem .55rem;text-align:center}
+.mv{font-size:14px;font-weight:700;color:#1a1f2e}.ml{font-size:10px;color:#667085}
+.sh{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#667085;margin:.9rem 0 .6rem}
+.cpg{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.9rem}
+@media(max-width:560px){.cpg{grid-template-columns:1fr}}
+.cpb{background:#f5f5f5;border-radius:7px;padding:.65rem;text-align:center}
+.cpn{width:22px;height:22px;border-radius:50%;background:#1a7a6e;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto .3rem}
+.cpt{font-size:12px;font-weight:700;color:#1a1f2e}.cpd{font-size:10.5px;color:#667085;margin-top:2px;line-height:1.4}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:.5rem .7rem;background:#f0faf8;border-radius:5px;margin-bottom:.35rem}
+.tl{font-size:12px;color:#667085}.tv{font-size:14px;font-weight:700;color:#0f5c52}
+.thirty{background:#edf7ed;border-radius:5px;padding:.35rem .65rem;font-size:11.5px;color:#1a5c1a;margin-top:.4rem;display:none}
+.tt{width:100%;border-collapse:collapse;font-size:12px}
+.tt th{font-size:11px;font-weight:700;color:#667085;text-align:left;padding:5px 8px;border-bottom:1.5px solid #e0e5ec;background:#f9fafb}
+.tt td{padding:5px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle;color:#344054}
+.tt tr.meets td{background:#edf7ed}.tt tr.meets td:first-child{border-left:3px solid #2d8a2d}
+.tt tr.near td{background:#fef9ec}.tt tr.near td:first-child{border-left:3px solid #b07d10}
+.tt tr.no td{background:#fef0f0}.tt tr.no td:first-child{border-left:3px solid #a32d2d}
+.tt tr.cur td{background:#e8f5f3;font-style:italic}.tt tr.cur td:first-child{border-left:3px solid #1a7a6e}
+.bdg{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700}
+.bg{background:#c6eed0;color:#1a5c1a}.bb{background:#fde9a2;color:#7a5500}.br{background:#fdd;color:#8b0000}.bc{background:#b8e5de;color:#0a4a40}
+.als{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.7rem}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.pw{background:#fff3ed;color:#8b3000;border:1px solid #f5b08a}
+.pi{background:#e8f0fe;color:#1a56a8;border:1px solid #93b4f5}
+.pd{background:#fdecea;color:#7f1d1d;border:1px solid #f5a8a8}
+.cac{background:#e8f0fe;border-left:3px solid #1a56a8;border-radius:7px;padding:.75rem 1rem;font-size:11.5px;color:#0d2e6e;line-height:1.7}
+.cac strong{color:#1a56a8}
+.tbl-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="header">
+  <div>
+    <h1>PREVENT™ ASCVD Risk Calculator + 2026 ACC/AHA LDL-C Management Plan</h1>
+    <p>PREVENT™ 1.0.0 · AHA-DS-Analytics/PREVENT · Base eq. by default; HbA1c eq. when HbA1c is entered</p>
+  </div>
+  <div>
+    <div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;text-align:center">Units</div>
+    <div class="unit-toggle">
+      <button class="on" id="u-mgdl" onclick="setUnit('mgdl')">mg/dL</button>
+      <button id="u-mmol" onclick="setUnit('mmol')">mmol/L</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+<div class="hd">Estimator Mode</div>
+<div class="mode-row">
+  <button class="mb">PREVENT™</button>
+  <button class="mb" onclick="alert('Pooled Cohort not included — PREVENT™ is the 2026 ACC/AHA recommended model.')">Pooled Cohort</button>
+</div>
+<div class="note">Respond to all questions - this calculator should be used for primary prevention patients (those without CVD) only.</div>
+
+<div class="r4">
+  <div><div class="fl">Sex</div><div class="seg" id="s-sex"><button class="on" data-v="1" onclick="sg('s-sex',this)">Female</button><button data-v="0" onclick="sg('s-sex',this)">Male</button></div></div>
+  <div><div class="fl">Age <span class="u">(years)</span></div><input class="ni" id="age" type="number" min="30" max="79" placeholder="30–79 yrs"></div>
+  <div><div class="fl">HDL-Cholesterol <span class="u" id="lbl-hdl">(mg/dL)</span></div><input class="ni" id="hdl" type="number" step="0.01" placeholder="20–100 mg/dL" id="hdl"></div>
+  <div><div class="fl">Total Cholesterol <span class="u" id="lbl-tc">(mg/dL)</span></div><input class="ni" id="tc" type="number" step="0.01" placeholder="130–320 mg/dL"></div>
+</div>
+
+<div class="r4">
+  <div><div class="fl">Currently Smoking <span class="i">i</span></div><div class="seg" id="s-sm"><button data-v="1" onclick="sg('s-sm',this)">Yes</button><button class="on" data-v="0" onclick="sg('s-sm',this)">No</button></div></div>
+  <div><div class="fl">Systolic BP <span class="u">(mmHg)</span></div><input class="ni" id="sbp" type="number" min="90" max="200" placeholder="90–200 mmHg"></div>
+  <div><div class="fl">BMI <span class="u">(kg/m²)</span> <span class="i">i</span></div><input class="ni" id="bmi" type="number" min="18.5" max="39.9" step="0.1" placeholder="18.5–39.9"></div>
+  <div><div class="fl">eGFR <span class="u">(mL/min/1.73m²)</span></div><input class="ni" id="egfr" type="number" min="15" max="140" placeholder="15–140"></div>
+</div>
+
+<div class="r3">
+  <div><div class="fl">Lipid-lowering medication <span class="i">i</span></div><div class="seg" id="s-stat"><button data-v="1" onclick="sg('s-stat',this)">Yes</button><button class="on" data-v="0" onclick="sg('s-stat',this)">No</button></div></div>
+  <div><div class="fl">Anti-hypertensive medication <span class="i">i</span></div><div class="seg" id="s-bpt"><button data-v="1" onclick="sg('s-bpt',this)">Yes</button><button class="on" data-v="0" onclick="sg('s-bpt',this)">No</button></div></div>
+  <div><div class="fl">Diabetes <span class="i">i</span></div><div class="seg" id="s-dm"><button data-v="1" onclick="sg('s-dm',this)">Yes</button><button class="on" data-v="0" onclick="sg('s-dm',this)">No</button></div></div>
+</div>
+
+<div class="opt">The following three predictors are optional for further personalization of risk assessment when indicated or available:</div>
+<div class="r3" style="margin-bottom:.5rem">
+  <div>
+    <div class="fl">UACR <span class="u">(mg/g)</span> <span class="i">i</span></div>
+    <div class="seg" id="s-uacr"><button data-v="1" onclick="sg('s-uacr',this);sc('c-uacr',true)">Yes</button><button class="on" data-v="0" onclick="sg('s-uacr',this);sc('c-uacr',false)">No</button></div>
+    <div class="cond" id="c-uacr"><input class="ni" id="uacr" type="number" min="0" placeholder="UACR mg/g" style="margin-top:.35rem"></div>
+  </div>
+  <div>
+    <div class="fl">HbA1c <span class="u">(%)</span> <span class="i">i</span></div>
+    <div class="seg" id="s-hba1c"><button data-v="1" onclick="sg('s-hba1c',this);sc('c-hba1c',true)">Yes</button><button class="on" data-v="0" onclick="sg('s-hba1c',this);sc('c-hba1c',false)">No</button></div>
+    <div class="cond" id="c-hba1c"><input class="ni" id="hba1c" type="number" min="4" max="20" step="0.1" placeholder="HbA1c %" style="margin-top:.35rem"></div>
+  </div>
+  <div>
+    <div class="fl">Zip Code <span class="i">i</span></div>
+    <div class="seg" id="s-zip"><button data-v="1" onclick="sg('s-zip',this);sc('c-zip',true)">Yes</button><button class="on" data-v="0" onclick="sg('s-zip',this);sc('c-zip',false)">No</button></div>
+    <div class="cond" id="c-zip"><input class="ni" id="zip" type="text" placeholder="ZIP code" style="margin-top:.35rem"></div>
+  </div>
+</div>
+
+<div class="addbox">
+  <div class="addbox-hd">Additional inputs for LDL-C management plan <span class="unit-badge" id="plan-unit-badge">mg/dL</span></div>
+  <div class="r3" style="margin-bottom:0">
+    <div><div class="fl">Current LDL-C <span class="u" id="lbl-ldlc">(mg/dL)</span></div><input class="ni" id="ldlc" type="number" step="0.01" placeholder="e.g. 130"></div>
+    <div><div class="fl">Current non-HDL-C <span class="u" id="lbl-nonhdlc">(mg/dL)</span></div><input class="ni" id="nonhdlc" type="number" step="0.01" placeholder="e.g. 160"></div>
+    <div><div class="fl">Lp(a) <span class="u" id="lbl-lpa">(mg/dL)</span></div><input class="ni" id="lpa" type="number" step="0.01" placeholder="optional"></div>
+  </div>
+</div>
+
+<div style="font-size:13px;font-weight:700;margin-bottom:.5rem;color:#344054">Risk-enhancing factors</div>
+<div class="ref-grid">
+  <label><input type="checkbox" id="rf-fh"> FH / premature ASCVD family hx</label>
+  <label><input type="checkbox" id="rf-ckd"> CKD (eGFR &lt;60)</label>
+  <label><input type="checkbox" id="rf-ibd"> Chronic inflammatory / autoimmune</label>
+  <label><input type="checkbox" id="rf-htn"> HTN with end-organ damage</label>
+  <label><input type="checkbox" id="rf-apo"> ApoB ≥130 mg/dL</label>
+  <label><input type="checkbox" id="rf-met"> Metabolic syndrome</label>
+  <label><input type="checkbox" id="rf-pre"> Pre-eclampsia / premature menopause</label>
+  <label><input type="checkbox" id="rf-sd"> South Asian ancestry</label>
+</div>
+
+<div class="mhd">Select PREVENT™ model(s) to calculate*</div>
+<div class="mdesc">The Predicting Risk of Cardiovascular Disease EVENTs (PREVENT™) equations estimate 10-year and 30-year risk for total cardiovascular disease (CVD), including atherosclerotic CVD (ASCVD) and heart failure (HF).</div>
+<div class="mgrid">
+  <div class="mbox">
+    <div class="mbox-hd"><input type="checkbox" checked> ASCVD</div>
+    <div class="rrow"><div>Estimated <strong>10-year</strong><br>risk of <strong>ASCVD</strong></div><div style="text-align:right"><div class="rpct" id="r10a">~%</div><div class="rlbl" id="r10a-lbl"></div></div></div>
+    <div class="rrow"><div>Estimated <strong>30-year</strong><br>risk of <strong>ASCVD</strong></div><div class="rpct" id="r30a">~%</div></div>
+  </div>
+  <div class="mbox">
+    <div class="mbox-hd"><input type="checkbox" checked> Heart Failure</div>
+    <div class="rrow"><div>Estimated <strong>10-year</strong><br>risk of <strong>HF</strong></div><div class="rpct" id="r10hf">~%</div></div>
+    <div class="rrow"><div>Estimated <strong>30-year</strong><br>risk of <strong>HF</strong></div><div class="rpct" id="r30hf">~%</div></div>
+  </div>
+  <div class="mbox">
+    <div class="mbox-hd"><input type="checkbox" checked> CVD</div>
+    <div class="rrow"><div>Estimated <strong>10-year</strong><br>risk of <strong>CVD</strong></div><div class="rpct" id="r10cvd">~%</div></div>
+    <div class="rrow"><div>Estimated <strong>30-year</strong><br>risk of <strong>CVD</strong></div><div class="rpct" id="r30cvd">~%</div></div>
+  </div>
+  <div class="bcol">
+    <button class="bcalc" onclick="calculate()">Calculate</button>
+    <button class="breset" onclick="resetAll()">Reset</button>
+    <button class="bexp" onclick="exportR()">⬇ Export</button>
+  </div>
+</div>
+<div class="err" id="err"></div>
+<div class="fn" id="fn"></div>
+</div>
+
+<!-- Plan -->
+<div class="plan" id="plan">
+<div id="rbanner" class="rbanner">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">
+    <div><div id="rtitle" class="rtitle"></div><div style="font-size:12px;color:#667085;margin-top:3px" id="rsub"></div><div id="thirty" class="thirty"></div></div>
+    <div class="mg" style="min-width:210px">
+      <div class="mc"><div class="mv" id="mc1">—</div><div class="ml">Non-HDL-C</div></div>
+      <div class="mc"><div class="mv" id="mc2">—</div><div class="ml">Current LDL-C</div></div>
+      <div class="mc"><div class="mv" id="mc3">—</div><div class="ml">LDL-C target</div></div>
+    </div>
+  </div>
+</div>
+<div class="als" id="als"></div>
+<div class="card">
+  <div class="sh">CPR Framework — 2026 ACC/AHA Dyslipidemia Guideline</div>
+  <div class="cpg">
+    <div class="cpb"><div class="cpn">1</div><div class="cpt">Calculate</div><div class="cpd" id="cp1"></div></div>
+    <div class="cpb"><div class="cpn">2</div><div class="cpt">Personalise</div><div class="cpd" id="cp2"></div></div>
+    <div class="cpb"><div class="cpn">3</div><div class="cpt">Reclassify</div><div class="cpd" id="cp3"></div></div>
+  </div>
+  <div class="trow"><span class="tl">LDL-C target (Figure 6)</span><span class="tv" id="tl1">—</span></div>
+  <div class="trow"><span class="tl">Non-HDL-C target</span><span class="tv" id="tl2">—</span></div>
+  <div class="trow"><span class="tl">LDL-C reduction needed</span><span class="tv" id="tl3">—</span></div>
+</div>
+<div class="card">
+  <div class="sh">Therapeutic escalation ladder</div>
+  <div style="font-size:11px;color:#667085;margin-bottom:.5rem">
+    <span style="display:inline-block;width:9px;height:9px;background:#c6eed0;border-radius:2px;margin-right:3px"></span>Meets target &nbsp;
+    <span style="display:inline-block;width:9px;height:9px;background:#fde9a2;border-radius:2px;margin-right:3px"></span>Near (&lt;10 mg/dL above) &nbsp;
+    <span style="display:inline-block;width:9px;height:9px;background:#fdd;border-radius:2px;margin-right:3px"></span>Does not meet &nbsp;
+    <span style="display:inline-block;width:9px;height:9px;background:#b8e5de;border-radius:2px;margin-right:3px"></span>Current therapy
+  </div>
+  <div class="tbl-wrap"><table class="tt"><thead><tr><th>Regimen</th><th>LDL-C ↓</th><th id="th-ldl">Predicted LDL-C</th><th id="th-nhdl">Predicted non-HDL-C</th><th>Status</th><th>Notes</th></tr></thead><tbody id="tbody"></tbody></table></div>
+</div>
+<div class="card"><div class="sh">Risk-enhancing factors present</div><div id="rfd" style="display:flex;flex-wrap:wrap;gap:.3rem"></div></div>
+<div class="card" style="padding:0;border:none;background:transparent"><div id="cac" class="cac"></div></div>
+</div>
+</div>
+
+<script>
+(function(){
+const M=Math;
+// Conversion constants
+const MGDL_PER_MMOL = 38.67; // for cholesterol
+function toMgdl(v, isMmol){ return isMmol ? v * MGDL_PER_MMOL : v; }
+function toDisp(mgdl, isMmol){ return isMmol ? +(mgdl / MGDL_PER_MMOL).toFixed(2) : Math.round(mgdl); }
+function dispUnit(isMmol){ return isMmol ? 'mmol/L' : 'mg/dL'; }
+
+let unitMmol = false; // global unit state
+
+function setUnit(u){
+  const wasMmol = unitMmol;
+  unitMmol = (u === 'mmol');
+  document.getElementById('u-mgdl').classList.toggle('on', !unitMmol);
+  document.getElementById('u-mmol').classList.toggle('on', unitMmol);
+
+  // Convert existing input values
+  const cholFields = ['tc','hdl','ldlc','nonhdlc','lpa'];
+  cholFields.forEach(id => {
+    const el = document.getElementById(id);
+    if(el.value !== ''){
+      const v = parseFloat(el.value);
+      if(!isNaN(v)){
+        if(unitMmol && !wasMmol){
+          el.value = +(v / MGDL_PER_MMOL).toFixed(3);
+        } else if(!unitMmol && wasMmol){
+          el.value = Math.round(v * MGDL_PER_MMOL);
+        }
+      }
+    }
+  });
+
+  // Update labels
+  const unitLabel = dispUnit(unitMmol);
+  document.getElementById('lbl-hdl').textContent = '('+unitLabel+')';
+  document.getElementById('lbl-tc').textContent = '('+unitLabel+')';
+  document.getElementById('lbl-ldlc').textContent = '('+unitLabel+')';
+  document.getElementById('lbl-nonhdlc').textContent = '('+unitLabel+')';
+  document.getElementById('lbl-lpa').textContent = '('+unitLabel+')';
+  document.getElementById('plan-unit-badge').textContent = unitLabel;
+  document.getElementById('th-ldl').textContent = 'Predicted LDL-C ('+unitLabel+')';
+  document.getElementById('th-nhdl').textContent = 'Predicted non-HDL-C ('+unitLabel+')';
+
+  // Update placeholders
+  if(unitMmol){
+    document.getElementById('tc').placeholder='3.4–8.3 mmol/L';
+    document.getElementById('hdl').placeholder='0.5–2.6 mmol/L';
+    document.getElementById('ldlc').placeholder='e.g. 3.4';
+    document.getElementById('nonhdlc').placeholder='e.g. 4.1';
+    document.getElementById('lpa').placeholder='optional';
+  } else {
+    document.getElementById('tc').placeholder='130–320 mg/dL';
+    document.getElementById('hdl').placeholder='20–100 mg/dL';
+    document.getElementById('ldlc').placeholder='e.g. 130';
+    document.getElementById('nonhdlc').placeholder='e.g. 160';
+    document.getElementById('lpa').placeholder='optional';
+  }
+}
+
+function mm(x){return 0.02586*x}
+const lo=x=>100*M.exp(x)/(1+M.exp(x))
+function sg(id,btn){document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function gv(id){for(const b of document.querySelectorAll('#'+id+' button'))if(b.classList.contains('on'))return parseFloat(b.dataset.v);return null}
+function sc(id,show){document.getElementById(id).style.display=show?'block':'none'}
+
+// ── BASE equations ─────────────────────────────────────────────────────────
+function baseModel(sex,age,tc,hdl,sbp,dm,sm,bmi,egfr,bpt,stat){
+  const nh=mm(tc-hdl),hm=mm(hdl),a=(age-55)/10;
+  const sl=(M.min(sbp,110)-110)/20,sh=(M.max(sbp,110)-130)/20;
+  const el=(M.min(egfr,60)-60)/(-15),eh=(M.max(egfr,60)-90)/(-15);
+  const bl=(M.min(bmi,30)-25)/5,bh=(M.max(bmi,30)-30)/5;
+  const dn=mm(tc)-mm(hdl)-3.5;
+  let a10,a30,c10,c30,h10,h30;
+  if(sex===1){
+    c10=-3.307728+0.7939329*a+0.0305239*(nh-3.5)-0.1606857*(hm-1.3)/0.3-0.2394003*sl+0.360078*sh+0.8667604*dm+0.5360739*sm+0.6045917*el+0.0433769*eh+0.3151672*bpt-0.1477655*stat-0.0663612*bpt*sh+0.1197879*stat*(nh-3.5)-0.0819715*a*(nh-3.5)+0.0306769*a*(hm-1.3)/0.3-0.0946348*a*sh-0.27057*a*dm-0.078715*a*sm-0.1637806*a*el;
+    c30=-1.318827+0.5503079*a-0.0928369*a*a+0.0409794*(nh-3.5)-0.1663306*(hm-1.3)/0.3-0.1628654*sl+0.3299505*sh+0.6793894*dm+0.3196112*sm+0.1857101*el+0.0553528*eh+0.2894*bpt-0.075688*stat-0.056367*bpt*sh+0.1071019*stat*(nh-3.5)-0.0751438*a*(nh-3.5)+0.0301786*a*(hm-1.3)/0.3-0.0998776*a*sh-0.3206166*a*dm-0.1607862*a*sm-0.1450788*a*el;
+    a10=-3.819975+0.719883*a+0.1176967*dn-0.151185*(hm-1.3)/0.3-0.0835358*sl+0.3592852*sh+0.8348585*dm+0.4831078*sm+0.4864619*el+0.0397779*eh+0.2265309*bpt-0.0592374*stat-0.0395762*bpt*sh+0.0844423*stat*dn-0.0567839*a*dn+0.0325692*a*(hm-1.3)/0.3-0.1035985*a*sh-0.2417542*a*dm-0.0791142*a*sm-0.1671492*a*el;
+    a30=-1.974074+0.4669202*a-0.0893118*a*a+0.1256901*dn-0.1542255*(hm-1.3)/0.3-0.0018093*sl+0.322949*sh+0.6296707*dm+0.268292*sm+0.100106*el+0.0499663*eh+0.1875292*bpt+0.0152476*stat-0.0276123*bpt*sh+0.0736147*stat*dn-0.0521962*a*dn+0.0316918*a*(hm-1.3)/0.3-0.1046101*a*sh-0.2727793*a*dm-0.1530907*a*sm-0.1299149*a*el;
+    h10=-4.310409+0.8998235*a-0.4559771*sl+0.3576505*sh+1.038346*dm+0.583916*sm-0.0072294*bl+0.2997706*bh+0.7451638*el+0.0557087*eh+0.3534442*bpt-0.0981511*bpt*sh-0.0946663*a*sh-0.3581041*a*dm-0.1159453*a*sm-0.003878*a*bh-0.1884289*a*el;
+    h30=-2.205379+0.6254374*a-0.0983038*a*a-0.3919241*sl+0.3142295*sh+0.8330787*dm+0.3438651*sm+0.0594874*bl+0.2525536*bh+0.2981642*el+0.0667159*eh+0.333921*bpt-0.0893177*bpt*sh-0.0974299*a*sh-0.404855*a*dm-0.1982991*a*sm-0.0035619*a*bh-0.1564215*a*el;
+  } else {
+    c10=-3.031168+0.7688528*a+0.0736174*(nh-3.5)-0.0954431*(hm-1.3)/0.3-0.4347345*sl+0.3362658*sh+0.7692857*dm+0.4386871*sm+0.5378979*el+0.0164827*eh+0.288879*bpt-0.1337349*stat-0.0475924*bpt*sh+0.150273*stat*(nh-3.5)-0.0517874*a*(nh-3.5)+0.0191169*a*(hm-1.3)/0.3-0.1049477*a*sh-0.2251948*a*dm-0.0895067*a*sm-0.1543702*a*el;
+    c30=-1.148204+0.4627309*a-0.0984281*a*a+0.0836088*(nh-3.5)-0.1029824*(hm-1.3)/0.3-0.2140352*sl+0.2904325*sh+0.5331276*dm+0.2141914*sm+0.1155556*el+0.0603775*eh+0.232714*bpt-0.0272112*stat-0.0384488*bpt*sh+0.134192*stat*(nh-3.5)-0.0511759*a*(nh-3.5)+0.0165865*a*(hm-1.3)/0.3-0.1101437*a*sh-0.2585943*a*dm-0.1566406*a*sm-0.1166776*a*el;
+    a10=-3.500655+0.7099847*a+0.1658663*dn-0.1144285*(hm-1.3)/0.3-0.2837212*sl+0.3239977*sh+0.7189597*dm+0.3956973*sm+0.3690075*el+0.0203619*eh+0.2036522*bpt-0.0865581*stat-0.0322916*bpt*sh+0.114563*stat*dn-0.0300005*a*dn+0.0232747*a*(hm-1.3)/0.3-0.0927024*a*sh-0.2018525*a*dm-0.0970527*a*sm-0.1217081*a*el;
+    a30=-1.736444+0.3994099*a-0.0937484*a*a+0.1744643*dn-0.120203*(hm-1.3)/0.3-0.0665117*sl+0.2753037*sh+0.4790257*dm+0.1782635*sm-0.0218789*el+0.0602553*eh+0.1421182*bpt+0.0135996*stat-0.0218265*bpt*sh+0.1013148*stat*dn-0.0312619*a*dn+0.020673*a*(hm-1.3)/0.3-0.0920935*a*sh-0.2159947*a*dm-0.1548811*a*sm-0.0712547*a*el;
+    h10=-3.946391+0.8972642*a-0.6811466*sl+0.3634461*sh+0.923776*dm+0.5023736*sm-0.0485841*bl+0.3726929*bh+0.6926917*el+0.0251827*eh+0.2980922*bpt-0.0497731*bpt*sh-0.1289201*a*sh-0.3040924*a*dm-0.1401688*a*sm+0.0068126*a*bh-0.1797778*a*el;
+    h30=-1.95751+0.5681541*a-0.1048388*a*a-0.4761564*sl+0.30324*sh+0.6840338*dm+0.2656273*sm+0.0833107*bl+0.26999*bh+0.2541805*el+0.0638923*eh+0.2583631*bpt-0.0391938*bpt*sh-0.1269124*a*sh-0.3273572*a*dm-0.2043019*a*sm-0.0182831*a*bh-0.1342618*a*el;
+  }
+  return{a10:lo(a10),a30:age>59?null:lo(a30),c10:lo(c10),c30:age>59?null:lo(c30),h10:lo(h10),h30:age>59?null:lo(h30)};
+}
+
+// ── HbA1c equations (pred_risk_hba1c) ─────────────────────────────────────
+function hba1cModel(sex,age,tc,hdl,sbp,dm,sm,bmi,egfr,bpt,stat,hba1c){
+  const nh=mm(tc-hdl),hm=mm(hdl),a=(age-55)/10;
+  const sl=(M.min(sbp,110)-110)/20,sh=(M.max(sbp,110)-130)/20;
+  const el=(M.min(egfr,60)-60)/(-15),eh=(M.max(egfr,60)-90)/(-15);
+  const bl=(M.min(bmi,30)-25)/5,bh=(M.max(bmi,30)-30)/5;
+  const dn=mm(tc)-mm(hdl)-3.5;
+  const hD=hba1c!=null?hba1c-5.3:null;
+  let a10,a30,c10,c30,h10,h30;
+  if(sex===1){
+    c10=-3.306162+0.7858178*a+0.0194438*(nh-3.5)-0.1521964*(hm-1.3)/0.3-0.2296681*sl+0.3465777*sh+0.5366241*dm+0.5411682*sm+0.5931898*el+0.0472458*eh+0.3158567*bpt-0.1535174*stat-0.0687752*bpt*sh+0.1054746*stat*(nh-3.5)-0.0761119*a*(nh-3.5)+0.0307469*a*(hm-1.3)/0.3-0.0905966*a*sh-0.2241857*a*dm-0.080186*a*sm-0.1667286*a*el+(hD!=null?0.1338348*hD*dm+0.1622409*hD*(1-dm):-0.0142496);
+    a10=-3.838746+0.7111831*a+0.106797*dn-0.1425745*(hm-1.3)/0.3-0.0736824*sl+0.3480844*sh+0.5112951*dm+0.4880292*sm+0.4754997*el+0.0438132*eh+0.2259093*bpt-0.0648872*stat-0.0437645*bpt*sh+0.0697082*stat*dn-0.0506382*a*dn+0.0327475*a*(hm-1.3)/0.3-0.0996442*a*sh-0.1924338*a*dm-0.0803539*a*sm-0.1682586*a*el+(hD!=null?0.1339055*hD*dm+0.1596461*hD*(1-dm):0.0015678);
+    h10=-4.288225+0.8997391*a-0.4422749*sl+0.3378691*sh+0.681284*dm+0.5886005*sm-0.0148657*bl+0.2958374*bh+0.73447*el+0.05926*eh+0.3543475*bpt-0.1002139*bpt*sh-0.0878765*a*sh-0.303684*a*dm-0.1178943*a*sm-0.008345*a*bh-0.1912183*a*el+(hD!=null?0.1856442*hD*dm+0.1833083*hD*(1-dm):-0.0143112);
+    c30=-1.341059+0.5343493*a-0.0952314*a*a+0.0298124*(nh-3.5)-0.1578451*(hm-1.3)/0.3-0.1504488*sl+0.3173368*sh+0.4314738*dm+0.3209399*sm+0.1771435*el+0.0582828*eh+0.2888947*bpt-0.0795886*stat-0.0600438*bpt*sh+0.0920598*stat*(nh-3.5)-0.0696108*a*(nh-3.5)+0.0308807*a*(hm-1.3)/0.3-0.0954051*a*sh-0.2763408*a*dm-0.1623944*a*sm-0.1430514*a*el+(hD!=null?0.0940543*hD*dm+0.1116486*hD*(1-dm):-0.0024798);
+    a30=-2.011533+0.4555574*a-0.0903501*a*a+0.1148321*dn-0.1458754*(hm-1.3)/0.3+0.0089323*sl+0.3139029*sh+0.386281*dm+0.2714309*sm+0.0930987*el+0.0532216*eh+0.1862181*bpt+0.0106964*stat-0.0329713*bpt*sh+0.0583609*stat*dn-0.0463273*a*dn+0.0324717*a*(hm-1.3)/0.3-0.1004777*a*sh-0.2266944*a*dm-0.1541859*a*sm-0.1286005*a*el+(hD!=null?0.0875827*hD*dm+0.1126417*hD*(1-dm):0.0124356);
+    h30=-2.193553+0.6210856*a-0.1000972*a*a-0.3773697*sl+0.295316*sh+0.5681692*dm+0.3449139*sm+0.0540094*bl+0.249767*bh+0.2875781*el+0.0692013*eh+0.3334936*bpt-0.0922339*bpt*sh-0.0907885*a*sh-0.3554646*a*dm-0.2008846*a*sm-0.0079611*a*bh-0.156803*a*el+(hD!=null?0.1448336*hD*dm+0.1277838*hD*(1-dm):-0.0022589);
+  } else {
+    c10=-3.040901+0.7699177*a+0.0605093*(nh-3.5)-0.0888525*(hm-1.3)/0.3-0.417713*sl+0.3288657*sh+0.4759471*dm+0.4385663*sm+0.5334616*el+0.0206431*eh+0.2917524*bpt-0.1383313*stat-0.0482622*bpt*sh+0.1393796*stat*(nh-3.5)-0.0463501*a*(nh-3.5)+0.0205926*a*(hm-1.3)/0.3-0.1037717*a*sh-0.1737697*a*dm-0.0915839*a*sm-0.1637039*a*el+(hD!=null?0.13159*hD*dm+0.1295185*hD*(1-dm):-0.0128373);
+    a10=-3.51835+0.7064146*a+0.1532267*dn-0.1082166*(hm-1.3)/0.3-0.2675288*sl+0.3173809*sh+0.432604*dm+0.3958842*sm+0.3665014*el+0.0250243*eh+0.2061158*bpt-0.0899988*stat-0.0334959*bpt*sh+0.1034168*stat*dn-0.0255406*a*dn+0.0247538*a*(hm-1.3)/0.3-0.0917441*a*sh-0.1499195*a*dm-0.098089*a*sm-0.1305231*a*el+(hD!=null?0.1157161*hD*dm+0.1288303*hD*(1-dm):-0.0010001);
+    h10=-3.961954+0.911787*a-0.6568071*sl+0.3524645*sh+0.5849752*dm+0.5014014*sm-0.0512352*bl+0.365294*bh+0.6892219*el+0.0292377*eh+0.3038296*bpt-0.0515032*bpt*sh-0.1262343*a*sh-0.2449514*a*dm-0.1392217*a*sm+0.0009592*a*bh-0.1917105*a*el+(hD!=null?0.1652857*hD*dm+0.1505859*hD*(1-dm):-0.0113444);
+    c30=-1.180767+0.4519873*a-0.101624*a*a+0.0700456*(nh-3.5)-0.0968005*(hm-1.3)/0.3-0.1923527*sl+0.2827043*sh+0.3417152*dm+0.2105272*sm+0.1113291*el+0.0640135*eh+0.2334248*bpt-0.0299421*stat-0.0393204*bpt*sh+0.1228854*stat*(nh-3.5)-0.0463737*a*(nh-3.5)+0.0184599*a*(hm-1.3)/0.3-0.1085744*a*sh-0.2208049*a*dm-0.1577978*a*sm-0.1179375*a*el+(hD!=null?0.0768169*hD*dm+0.0777295*hD*(1-dm):0.0092204);
+    a30=-1.777708+0.3883267*a-0.0958114*a*a+0.1613374*dn-0.1144418*(hm-1.3)/0.3-0.0474338*sl+0.2691281*sh+0.2859773*dm+0.1759553*sm-0.0242898*el+0.0644523*eh+0.142874*bpt+0.0115062*stat-0.02333*bpt*sh+0.0899664*stat*dn-0.0275478*a*dn+0.022573*a*(hm-1.3)/0.3-0.090802*a*sh-0.1771894*a*dm-0.1548847*a*sm-0.0732754*a*el+(hD!=null?0.0591089*hD*dm+0.0821158*hD*(1-dm):0.0179755);
+    h30=-1.974999+0.5703729*a-0.1084544*a*a-0.4471767*sl+0.2910152*sh+0.4507242*dm+0.259585*sm+0.0850676*bl+0.2637222*bh+0.2454706*el+0.0675649*eh+0.2611991*bpt-0.0408908*bpt*sh-0.1241051*a*sh-0.2849461*a*dm-0.2032308*a*sm-0.0239714*a*bh-0.138301*a*el+(hD!=null?0.1101184*hD*dm+0.0949198*hD*(1-dm):0.0084192);
+  }
+  return{a10:lo(a10),a30:age>59?null:lo(a30),c10:lo(c10),c30:age>59?null:lo(c30),h10:lo(h10),h30:age>59?null:lo(h30)};
+}
+
+function sv(id,v,lbl){
+  const el=document.getElementById(id);
+  if(v!=null){el.textContent=v.toFixed(1)+'%';el.className='rpct';}
+  else{el.textContent='N/A';el.className='rpct';el.style.fontSize='12px';}
+  if(lbl)document.getElementById(lbl).textContent='';
+}
+
+function fmtCholOut(mgdl){
+  // Format cholesterol output value in current unit
+  if(unitMmol) return (mgdl/MGDL_PER_MMOL).toFixed(2)+' mmol/L';
+  return Math.round(mgdl)+' mg/dL';
+}
+function fmtTarget(mgdl){
+  if(unitMmol) return '<'+(mgdl/MGDL_PER_MMOL).toFixed(2)+' mmol/L';
+  return '<'+mgdl+' mg/dL';
+}
+
+function calculate(){
+  const err=document.getElementById('err');err.textContent='';
+  const sex=gv('s-sex'),age=parseFloat(document.getElementById('age').value);
+  // Read cholesterol in current unit and convert to mg/dL for equations
+  const tcRaw=parseFloat(document.getElementById('tc').value);
+  const hdlRaw=parseFloat(document.getElementById('hdl').value);
+  const tc = toMgdl(tcRaw, unitMmol);
+  const hdl = toMgdl(hdlRaw, unitMmol);
+  const sbp=parseFloat(document.getElementById('sbp').value);
+  const bmiR=parseFloat(document.getElementById('bmi').value),egfr=parseFloat(document.getElementById('egfr').value);
+  const dm=gv('s-dm'),sm=gv('s-sm'),bpt=gv('s-bpt'),stat=gv('s-stat');
+  const hba1cOn=gv('s-hba1c')===1;
+  const hba1cRaw=parseFloat(document.getElementById('hba1c').value);
+  const hba1c=(hba1cOn&&!isNaN(hba1cRaw)&&hba1cRaw>0)?hba1cRaw:null;
+  const ldlcRaw=parseFloat(document.getElementById('ldlc').value);
+  const nonhdlcRaw=parseFloat(document.getElementById('nonhdlc').value);
+  const lpaRaw=parseFloat(document.getElementById('lpa').value);
+  const ldlc=isNaN(ldlcRaw)?null:toMgdl(ldlcRaw,unitMmol);
+  const nonhdlc=isNaN(nonhdlcRaw)?null:toMgdl(nonhdlcRaw,unitMmol);
+  const lpa=isNaN(lpaRaw)?null:toMgdl(lpaRaw,unitMmol);
+
+  if(isNaN(age)||age<30||age>79){err.textContent='Age must be 30–79 years';return;}
+  if(isNaN(tc)||tc<130||tc>320){err.textContent='Total cholesterol must be 130–320 mg/dL (3.4–8.3 mmol/L)';return;}
+  if(isNaN(hdl)||hdl<20||hdl>100){err.textContent='HDL-C must be 20–100 mg/dL (0.5–2.6 mmol/L)';return;}
+  if(isNaN(sbp)||sbp<90||sbp>200){err.textContent='SBP must be 90–200 mmHg';return;}
+  if(isNaN(egfr)||egfr<=0){err.textContent='eGFR must be a positive value';return;}
+  const bmi=(!isNaN(bmiR)&&bmiR>=18.5&&bmiR<40)?bmiR:25;
+
+  const useHba1c=hba1c!=null;
+  const R=useHba1c
+    ?hba1cModel(sex,age,tc,hdl,sbp,dm,sm,bmi,egfr,bpt,stat,hba1c)
+    :baseModel(sex,age,tc,hdl,sbp,dm,sm,bmi,egfr,bpt,stat);
+
+  sv('r10a',R.a10,'r10a-lbl');sv('r30a',R.a30);sv('r10hf',R.h10);sv('r30hf',R.h30);sv('r10cvd',R.c10);sv('r30cvd',R.c30);
+
+  const rfFH=document.getElementById('rf-fh').checked,rfCKD=document.getElementById('rf-ckd').checked||egfr<60;
+  const rfIBD=document.getElementById('rf-ibd').checked,rfHTN=document.getElementById('rf-htn').checked;
+  const rfAPO=document.getElementById('rf-apo').checked,rfMET=document.getElementById('rf-met').checked;
+  const rfPRE=document.getElementById('rf-pre').checked,rfSD=document.getElementById('rf-sd').checked;
+  const hasREF=[rfFH,rfCKD,rfIBD,rfHTN,rfAPO,rfMET,rfPRE,rfSD].some(Boolean);
+
+  const cat0=R.a10<5?'low':R.a10<7.5?'borderline':R.a10<20?'intermediate':'high';
+  const cat=(cat0==='borderline'&&hasREF)?'intermediate':cat0;
+  const catL={low:'Low risk',borderline:'Borderline risk',intermediate:'Intermediate risk',high:'High risk'}[cat];
+  const catS={low:'Low',borderline:'Borderline',intermediate:'Intermediate',high:'High'}[cat];
+  document.getElementById('r10a-lbl').textContent=catS;
+  document.getElementById('fn').style.display='block';
+  document.getElementById('fn').textContent=useHba1c
+    ?'*Risk estimates calculated using the PREVENT™ 1.0.0 HbA1c equations (pred_risk_hba1c) — matches ACC CVD Risk Estimator Plus.'
+    :'*Risk estimates calculated using the PREVENT™ 1.0.0 base equations.';
+
+  const calcNH=tc-hdl,baseLDL=ldlc||(calcNH-30),baseNH=nonhdlc||calcNH;
+  // Targets in mg/dL
+  let lt=116,nt=146;
+  if(cat==='high'||R.a10>=20){lt=70;nt=100;if(dm===1||rfCKD||rfFH){lt=55;nt=85;}}
+  else if(cat==='intermediate'){lt=100;nt=130;if(dm===1){lt=70;nt=100;}}
+  else if(cat==='borderline'){lt=100;nt=130;}
+  if(lpa&&lpa>=50){lt=M.max(lt-15,55);nt=M.max(nt-15,70);}
+  const redN=baseLDL>lt?M.round((1-lt/baseLDL)*100):0;
+
+  const ban=document.getElementById('rbanner');ban.className='rbanner '+cat;
+  const rt=document.getElementById('rtitle');rt.className='rtitle '+cat;rt.textContent=catL;
+  document.getElementById('rsub').textContent='10-yr ASCVD: '+R.a10.toFixed(1)+'%  |  CVD: '+R.c10.toFixed(1)+'%  |  HF: '+R.h10.toFixed(1)+'%'+(useHba1c?' (HbA1c eq.)':' (base eq.)');
+  document.getElementById('mc1').textContent=fmtCholOut(calcNH);
+  document.getElementById('mc2').textContent=ldlc?fmtCholOut(ldlc):('Est. '+fmtCholOut(calcNH-30));
+  document.getElementById('mc3').textContent=fmtTarget(lt);
+
+  const tr=document.getElementById('thirty');
+  if(R.a30){tr.style.display='block';tr.innerHTML='30-yr ASCVD: <strong>'+R.a30.toFixed(1)+'%</strong> | 30-yr CVD: <strong>'+(R.c30?R.c30.toFixed(1)+'%':'N/A')+'</strong> | 30-yr HF: <strong>'+(R.h30?R.h30.toFixed(1)+'%':'N/A')+'</strong>';}
+  else tr.style.display='none';
+
+  document.getElementById('cp1').textContent='PREVENT™ 1.0.0 '+(useHba1c?'HbA1c':'base')+' eq. → 10-yr ASCVD: '+R.a10.toFixed(1)+'% → '+catL;
+  document.getElementById('cp2').textContent=hasREF?'REFs present → upclassified to '+catL:'No major risk-enhancing factors';
+  document.getElementById('cp3').textContent=(cat==='borderline'||cat==='intermediate')?'CAC scoring recommended if statin decision uncertain':(cat==='high'?'High risk: initiate therapy without delay':'Low risk: CAC optional for shared decision-making');
+  document.getElementById('tl1').textContent=fmtTarget(lt);
+  document.getElementById('tl2').textContent=fmtTarget(nt);
+  document.getElementById('tl3').textContent=redN>0?redN+'% reduction from current LDL-C':'Already at or below target';
+
+  const therapies=[
+    {ab:'Lifestyle only',r:5,nr:5,note:'Diet, exercise, weight loss'},
+    {ab:'Low-intensity statin',r:25,nr:20,note:'Rosuvastatin 5 mg, Pravastatin 40 mg'},
+    {ab:'Moderate-intensity statin',r:38,nr:30,note:'Atorvastatin 10–20 mg, Rosuvastatin 10–20 mg'},
+    {ab:'High-intensity statin',r:50,nr:42,note:'Atorvastatin 40–80 mg, Rosuvastatin 40 mg'},
+    {ab:'High-intensity statin + Ezetimibe',r:63,nr:55,note:'Ezetimibe 10 mg; ~20% incremental reduction'},
+    {ab:'High-intensity statin + Bempedoic acid',r:60,nr:52,note:'Alt. if ezetimibe intolerant; ↓ hsCRP'},
+    {ab:'Statin + Ezetimibe + Bempedoic acid',r:68,nr:60,note:'Maximally tolerated oral triple therapy'},
+    {ab:'Statin + Ezetimibe + PCSK9 inhibitor',r:85,nr:78,note:'Evolocumab / Alirocumab sc q2–4w'},
+    {ab:'Statin + Ezetimibe + Inclisiran',r:80,nr:72,note:'siRNA PCSK9i; sc q6m after loading'},
+  ];
+  if(stat===1)therapies.unshift({ab:'Current statin (baseline)',r:0,nr:0,note:'Already on statin therapy',cur:true});
+
+  const tbody=document.getElementById('tbody');tbody.innerHTML='';
+  therapies.forEach(t=>{
+    const plMg=baseLDL*(1-t.r/100),pnMg=baseNH*(1-t.nr/100),d=plMg-lt;
+    let cls=t.cur?'cur':d<=0?'meets':d<10?'near':'no';
+    const bdg=t.cur?'<span class="bdg bc">Current</span>':cls==='meets'?'<span class="bdg bg">Meets target</span>':cls==='near'?'<span class="bdg bb">Near target</span>':'<span class="bdg br">Insufficient</span>';
+    const tr2=document.createElement('tr');tr2.className=cls;
+    tr2.innerHTML='<td><strong>'+t.ab+'</strong></td><td>↓'+t.r+'%</td><td>'+fmtCholOut(plMg)+'</td><td>'+fmtCholOut(pnMg)+'</td><td>'+bdg+'</td><td style="font-size:11px;color:#667085">'+t.note+'</td>';
+    tbody.appendChild(tr2);
+  });
+
+  const ar=document.getElementById('als');ar.innerHTML='';
+  [[rfFH,'pd','FH detected — intensify; consider genetic testing'],[dm===1,null,'Diabetes: target LDL-C '+fmtTarget(70)],[rfCKD||egfr<60,null,'CKD: individualise statin; monitor renal function'],[lpa&&lpa>=50,'pd','Lp(a) ≥50 mg/dL — independent ASCVD risk; target tightened'],[stat===1,'pi','On statin: residual risk assessed; escalate if above target'],[rfAPO,null,'ApoB ≥130: non-HDL-C & ApoB as co-primary targets'],[age>=75,'pi','Age ≥75: shared decision-making recommended'],[egfr<30,'pd','eGFR <30: high CKD risk tier'],[sex===1&&rfPRE,null,'Pre-eclampsia/premature menopause: women-specific REF'],[useHba1c,'pi','HbA1c '+hba1c+'% entered — HbA1c eq. used (matches ACC tool)']].forEach(([c,cl,t])=>{if(c){const s=document.createElement('span');s.className='pill '+(cl||'pw');s.textContent=t;ar.appendChild(s);}});
+
+  const rd=document.getElementById('rfd');rd.innerHTML='';
+  [[rfFH,'FH/premature ASCVD family hx'],[rfCKD,'CKD'],[rfIBD,'Chronic inflammatory/autoimmune'],[rfHTN,'HTN with end-organ damage'],[rfAPO,'ApoB ≥130'],[rfMET,'Metabolic syndrome'],[rfPRE,'Pre-eclampsia/premature menopause'],[rfSD,'South Asian ancestry']].filter(r=>r[0]).forEach(r=>{const s=document.createElement('span');s.style.cssText='font-size:12px;padding:3px 9px;border-radius:20px;background:#f0f0f0;border:1px solid #ddd;color:#667085';s.textContent=r[1];rd.appendChild(s);});
+  if(!hasREF){const s=document.createElement('span');s.style.cssText='font-size:12px;color:#667085';s.textContent='None selected';rd.appendChild(s);}
+
+  const cb=document.getElementById('cac');
+  if(cat==='borderline'||cat==='intermediate')cb.innerHTML='<strong>CAC Scoring Guidance (2026 ACC/AHA)</strong><br><br>Recommended when statin decision remains uncertain after risk discussion.<br><br><strong>CAC = 0:</strong> Statin may be deferred; reassess in 5–10 years (unless DM, smoking, or strong family hx)<br><strong>CAC 1–99:</strong> Favours statin initiation; moderate-intensity recommended<br><strong>CAC ≥100 or ≥75th percentile:</strong> High-intensity statin → reclassify as high risk<br><strong>CAC ≥300 or ≥90th percentile:</strong> High-intensity statin ± ezetimibe';
+  else if(cat==='high')cb.innerHTML='<strong>CAC Scoring Guidance</strong><br>High risk — initiate high-intensity statin without delay. CAC not required.';
+  else cb.innerHTML='<strong>CAC Scoring Guidance</strong><br>Low risk — CAC optional; CAC = 0 provides reassurance for shared decision-making.';
+
+  document.getElementById('plan').style.display='block';
+  document.getElementById('plan').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetAll(){
+  ['age','tc','hdl','sbp','bmi','egfr','ldlc','nonhdlc','lpa','uacr','hba1c','zip'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  [['s-sex',1],['s-sm',0],['s-dm',0],['s-bpt',0],['s-stat',0],['s-uacr',0],['s-hba1c',0],['s-zip',0]].forEach(([id,val])=>{
+    document.querySelectorAll('#'+id+' button').forEach(b=>{
+      b.classList.remove('on');
+      if(parseFloat(b.dataset.v)===val) b.classList.add('on');
+    });
+  });
+  sc('c-uacr',false);sc('c-hba1c',false);sc('c-zip',false);
+  ['rf-fh','rf-ckd','rf-ibd','rf-htn','rf-apo','rf-met','rf-pre','rf-sd'].forEach(id=>document.getElementById(id).checked=false);
+  ['r10a','r30a','r10hf','r30hf','r10cvd','r30cvd'].forEach(id=>{const el=document.getElementById(id);el.textContent='~%';el.className='rpct';el.style.fontSize='';});
+  document.getElementById('r10a-lbl').textContent='';
+  document.getElementById('plan').style.display='none';
+  document.getElementById('err').textContent='';
+  document.getElementById('fn').style.display='none';
+}
+
+function exportR(){
+  const exportUnit=dispUnit(unitMmol);
+  const lines=['PREVENT™ 1.0.0 — Risk & LDL-C Management Report','Units: '+exportUnit,'',
+    'ASCVD  10-yr: '+document.getElementById('r10a').textContent,
+    'ASCVD  30-yr: '+document.getElementById('r30a').textContent,
+    'CVD    10-yr: '+document.getElementById('r10cvd').textContent,
+    'HF     10-yr: '+document.getElementById('r10hf').textContent,
+    '','LDL-C Target: '+document.getElementById('tl1').textContent,
+    'Non-HDL-C Target: '+document.getElementById('tl2').textContent,
+    '','--- Therapy Ladder ---'];
+  document.querySelectorAll('#tbody tr').forEach(tr=>{const c=[...tr.querySelectorAll('td')].map(td=>td.textContent);if(c.length)lines.push(c.slice(0,5).join('\t'));});
+  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='PREVENT_LDL_report.txt';a.click();
+}
+
+// Expose functions needed by inline onclick handlers
+window.setUnit=setUnit;
+window.sg=sg;
+window.sc=sc;
+window.calculate=calculate;
+window.resetAll=resetAll;
+window.exportR=exportR;
+})();
+</script>
+</body>
+</html>
